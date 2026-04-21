@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-ar="المتجر | كوثر" data-en="Shop | Kawthar">المتجر | كوثر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&family=Cairo:wght@300;400;500;600;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.shop-hero{
+  padding: calc(var(--nav-h) + 60px) 48px 50px;
+  text-align:center;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--pink-soft) 100%);
+}
+.shop-hero h1{
+  font-family:var(--font-display);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight:500;line-height:1.05;color:var(--text);
+  margin-bottom:14px;letter-spacing:1px;
+}
+.shop-hero h1 em{color:var(--gold);font-style:italic;font-weight:400}
+.shop-hero p{color:var(--text-mid);font-size:16px;max-width:540px;margin:0 auto}
+.shop-main{padding:0 48px 110px;background:var(--bg)}
+@media(max-width:768px){
+  .shop-hero{padding: calc(var(--nav-h) + 30px) 22px 30px}
+  .shop-main{padding:0 22px 80px}
+}
+</style>
+</head>
+<body>
+
+<nav></nav>
+
+<section class="shop-hero">
+  <h1>
+    <span data-ar="كل ما تحتاجينه" data-en="Everything">كل ما تحتاجينه</span>
+    <em data-ar="لبشرة مشرقة" data-en="you need">لبشرة مشرقة</em>
+  </h1>
+  <p data-ar="أكثر من 200 منتج أصلي من أفضل الماركات العالمية — اختاري ما يناسب بشرتك"
+     data-en="Over 200 authentic products from the world's finest brands — find exactly what your skin loves.">
+    أكثر من 200 منتج أصلي من أفضل الماركات العالمية — اختاري ما يناسب بشرتك
+  </p>
+</section>
+
+<main class="shop-main">
+  <div class="sticky-filter">
+    <div class="filter-wrap">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
+        <input type="text" id="searchInput"
+               data-ar-placeholder="ابحثي عن منتج أو ماركة..."
+               data-en-placeholder="Search a product or brand..."
+               placeholder="ابحثي عن منتج أو ماركة...">
+      </div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProducts('all',this)" data-ar="الكل" data-en="All">الكل</button>
+        <button class="filter-btn" onclick="filterProducts('serum',this)" data-ar="سيروم" data-en="Serum">سيروم</button>
+        <button class="filter-btn" onclick="filterProducts('moisturizer',this)" data-ar="مرطب" data-en="Moisturizer">مرطب</button>
+        <button class="filter-btn" onclick="filterProducts('cleanser',this)" data-ar="غسول" data-en="Cleanser">غسول</button>
+        <button class="filter-btn" onclick="filterProducts('sunscreen',this)" data-ar="واقي شمس" data-en="Sunscreen">واقي شمس</button>
+        <button class="filter-btn" onclick="filterProducts('toner',this)" data-ar="تونر" data-en="Toner">تونر</button>
+        <button class="filter-btn" onclick="filterProducts('eye',this)" data-ar="عيون" data-en="Eyes">عيون</button>
+        <button class="filter-btn" onclick="filterProducts('mask',this)" data-ar="ماسك" data-en="Masks">ماسك</button>
+        <button class="filter-btn" onclick="filterProducts('hair',this)" data-ar="شعر" data-en="Hair">شعر</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-count" id="productCount"></div>
+  <div class="product-grid" id="productGrid"></div>
+</main>
+
+<footer></footer>
+
+<script src="shared.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كوثر | عناية فاخرة بالبشرة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A96E;--gold-light:#E8D5B0;--gold-pale:#F7F0E6;
+  --pink:#F5E6E8;--pink-mid:#E8C5CB;--pink-deep:#C9909A;
+  --cream:#FBF8F4;--dark:#2C2318;--text-mid:#6B5A4E;--text-light:#A89080;--white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--cream);color:var(--dark);font-weight:300;line-height:1.7;direction:rtl}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(251,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gold-light);padding:14px 48px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;letter-spacing:5px;color:var(--dark);text-transform:uppercase;text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+.cart-icon{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;color:var(--gold);cursor:pointer;border:1px solid var(--gold-light);padding:6px 16px;transition:all .3s}
+.cart-icon:hover{background:var(--gold);color:#fff}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--cream) 50%,var(--pink) 100%);padding:120px 64px 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--gold-pale) 0%,transparent 70%);opacity:.6}
+.hero::after{content:'';position:absolute;bottom:-80px;left:25%;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--pink-mid) 0%,transparent 70%);opacity:.4}
+.hero-content{max-width:580px;position:relative;z-index:1}
+.hero-tag{display:inline-block;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;border-bottom:1px solid var(--gold-light);padding-bottom:10px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(56px,7vw,88px);font-weight:300;line-height:1.05;letter-spacing:2px;color:var(--dark);margin-bottom:28px}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero p{font-size:16px;color:var(--text-mid);max-width:440px;margin-bottom:44px;line-height:1.9}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+
+.btn-outline{display:inline-block;padding:15px 40px;border:1px solid var(--gold);color:var(--gold);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;background:none}
+.btn-outline:hover{background:var(--gold);color:var(--white)}
+.hero-img{position:absolute;left:48px;bottom:0;width:420px;opacity:.12;font-size:320px;line-height:1}
+
+/* BRANDS BAR */
+.brands-bar{background:var(--dark);padding:18px 48px;display:flex;gap:40px;overflow:hidden;white-space:nowrap;align-items:center}
+.brands-bar span{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase;opacity:.7}
+
+/* SECTIONS */
+section{padding:100px 48px}
+.section-tag{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,54px);font-weight:300;line-height:1.15;color:var(--dark);margin-bottom:16px}
+.section-sub{font-size:15px;color:var(--text-mid);line-height:1.85}
+.divider{width:60px;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold-light));margin:20px 0}
+
+/* SHOP */
+#products{background:var(--white)}
+.shop-header{text-align:center;margin-bottom:52px}
+.shop-header .divider{margin:20px auto}
+.shop-header .section-sub{margin:0 auto 36px}
+
+.filter-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:44px}
+.filter-btn{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:9px 22px;border:1px solid var(--gold-light);background:none;color:var(--text-mid);cursor:pointer;transition:all .3s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:28px;max-width:1280px;margin:0 auto}
+
+.product-card{background:var(--cream);border:1px solid var(--gold-light);transition:transform .3s,box-shadow .3s;cursor:pointer;position:relative;overflow:hidden}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(201,169,110,.15)}
+.product-card:hover .product-overlay{opacity:1}
+
+.product-img-wrap{width:100%;height:220px;overflow:hidden;position:relative;background:linear-gradient(145deg,var(--pink),var(--gold-pale))}
+.product-img-wrap img{width:100%;height:100%;object-fit:contain;padding:16px;transition:transform .4s}
+.product-card:hover .product-img-wrap img{transform:scale(1.05)}
+.product-overlay{position:absolute;inset:0;background:rgba(201,169,110,.08);opacity:0;transition:opacity .3s;display:flex;align-items:center;justify-content:center}
+
+.brand-badge{position:absolute;top:12px;right:12px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;background:rgba(44,35,24,.75);color:var(--gold-light);padding:4px 10px;backdrop-filter:blur(4px)}
+.new-badge{position:absolute;top:12px;left:12px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;background:var(--pink-deep);color:#fff;padding:4px 10px}
+
+.product-info{padding:18px 20px 22px}
+.product-brand-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.product-card h3{font-family:'Tajawal',sans-serif;font-size:14px;font-weight:400;color:var(--dark);margin-bottom:14px;line-height:1.5;min-height:42px}
+.product-footer{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:400}
+.add-btn{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-light);background:none;padding:8px 16px;cursor:pointer;transition:all .3s}
+.add-btn:hover{background:var(--gold);color:#fff}
+
+/* ABOUT */
+#about{background:linear-gradient(135deg,var(--gold-pale) 0%,var(--pink) 100%);display:flex;gap:80px;align-items:center;flex-wrap:wrap}
+.about-content{flex:1;min-width:300px}
+.about-visuals{flex:1;min-width:280px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.about-stat{background:var(--white);border:1px solid var(--gold-light);padding:28px 20px;text-align:center}
+.about-stat .num{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);display:block;line-height:1}
+.about-stat .lbl{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-top:6px;display:block}
+.about-big{grid-column:1/-1;background:var(--gold);padding:28px;text-align:center}
+.about-big p{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#fff;font-weight:300}
+
+/* ORDER SECTION */
+#order{background:var(--dark);padding:100px 48px;text-align:center}
+#order .section-tag{color:var(--gold-light)}
+#order .section-title{color:var(--cream)}
+#order .section-sub{color:var(--text-light);margin:0 auto 48px;max-width:520px}
+.order-options{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.order-card{background:rgba(255,255,255,.05);border:1px solid rgba(201,169,110,.25);padding:40px 32px;flex:1;min-width:220px;max-width:280px;text-align:center;transition:border-color .3s}
+.order-card:hover{border-color:var(--gold)}
+.order-icon{font-size:36px;margin-bottom:16px}
+.order-card h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);margin-bottom:10px}
+.order-card p{font-size:13px;color:var(--text-light);line-height:1.7;margin-bottom:20px}
+.order-btn{display:inline-block;padding:12px 28px;border:1px solid var(--gold);color:var(--gold);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer;background:none}
+.order-btn:hover{background:var(--gold);color:#fff}
+
+/* REVIEWS */
+#reviews{background:var(--white);text-align:center}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:1050px;margin:52px auto 0}
+.review-card{background:var(--cream);border:1px solid var(--gold-light);padding:36px 28px;text-align:right;transition:transform .3s}
+.review-card:hover{transform:translateY(-4px)}
+.stars{color:var(--gold);font-size:18px;letter-spacing:3px;margin-bottom:16px}
+.review-card blockquote{font-family:'Tajawal',sans-serif;font-size:16px;font-weight:300;color:var(--dark);line-height:1.75;margin-bottom:18px}
+.reviewer{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light)}
+
+/* CONTACT */
+#contact{background:var(--cream);padding:100px 48px;text-align:center}
+.contact-wrap{display:flex;gap:60px;max-width:1000px;margin:52px auto 0;flex-wrap:wrap;text-align:right}
+.contact-info{flex:1;min-width:240px}
+.contact-info h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:20px;color:var(--dark)}
+.contact-info p{font-size:14px;color:var(--text-mid);line-height:1.8;margin-bottom:12px}
+.contact-info a{color:var(--gold);text-decoration:none}
+.contact-form-wrap{flex:1;min-width:280px}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.contact-form input,.contact-form textarea,.contact-form select{background:#fff;border:1px solid var(--gold-light);color:var(--dark);padding:13px 18px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:300;outline:none;resize:none;transition:border-color .3s;width:100%;text-align:right}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--gold)}
+.contact-form textarea{height:120px}
+
+/* CART MODAL */
+.cart-modal{display:none;position:fixed;inset:0;z-index:999;background:rgba(44,35,24,.5);backdrop-filter:blur(4px)}
+.cart-modal.open{display:flex;align-items:flex-start;justify-content:flex-start}
+.cart-panel{background:var(--cream);width:380px;min-height:100vh;padding:32px 28px;border-left:1px solid var(--gold-light);overflow-y:auto}
+.cart-panel h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:24px;color:var(--dark)}
+.cart-items{display:flex;flex-direction:column;gap:16px;margin-bottom:28px}
+.cart-item{display:flex;gap:14px;align-items:center;border-bottom:1px solid var(--gold-light);padding-bottom:14px}
+.cart-item-info{flex:1}
+.cart-item-info h4{font-size:13px;font-weight:400;color:var(--dark);margin-bottom:4px}
+.cart-item-info span{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold)}
+.remove-btn{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:18px;padding:4px}
+.cart-total{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--dark);margin-bottom:20px}
+.cart-empty{font-size:14px;color:var(--text-light);text-align:center;padding:40px 0}
+.close-cart{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-mid);margin-bottom:20px}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:28px;left:28px;z-index:200;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,.4);transition:transform .3s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* FOOTER */
+footer{background:#1A1108;color:var(--text-light);text-align:center;padding:32px 48px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1.5px}
+footer span{color:var(--gold)}
+.footer-links{display:flex;gap:28px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.footer-links a{color:var(--text-light);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  section{padding:70px 20px}
+  .hero{padding:100px 24px 60px}
+  #about{flex-direction:column;gap:40px}
+  .contact-wrap{flex-direction:column}
+  .cart-panel{width:100vw}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">K<span>aw</span>thar</a>
+  <ul class="nav-links">
+    <li><a href="#products">المتجر</a></li>
+    <li><a href="#about">من نحن</a></li>
+    <li><a href="#reviews">آراء العملاء</a></li>
+    <li><a href="#contact">تواصل معنا</a></li>
+  </ul>
+  <div class="cart-icon" onclick="toggleCart()">🛍 السلة (<span id="cartCount">0</span>)</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-tag">عناية فاخرة بالبشرة · فلسطين</div>
+    <h1>جمالكِ يبدأ<br>من <em>هنا</em></h1>
+    <p>منتجات عناية كورية أصلية مختارة بعناية — سيرومات، مرطبات، واقيات شمس وأكثر. توصيل لجميع أنحاء فلسطين.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-gold">تسوّقي الآن</a>
+      <a href="#order" class="btn-outline">كيف تطلبين؟</a>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS BAR -->
+<div class="brands-bar">
+  <span>COSRX</span><span>·</span><span>BEAUTY OF JOSEON</span><span>·</span>
+  <span>ANUA</span><span>·</span><span>TOCOBO</span><span>·</span>
+  <span>ROUND LAB</span><span>·</span><span>NUMBUZN</span><span>·</span>
+  <span>MEDICUBE</span><span>·</span><span>SOME BY ME</span><span>·</span>
+  <span>SKIN1004</span><span>·</span><span>AXIS-Y</span><span>·</span>
+  <span>VITA-C</span><span>·</span><span>PURITO</span><span>·</span>
+  <span>DR. ALTHEA</span><span>·</span><span>HARUHARU</span>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="shop-header">
+    <div class="section-tag">المتجر</div>
+    <h2 class="section-title">تشكيلتنا الكاملة</h2>
+    <div class="divider"></div>
+    <p class="section-sub">أكثر من 200 منتج كوري أصلي — متوفرة في فلسطين مع توصيل سريع</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProducts('all',this)">الكل</button>
+    <button class="filter-btn" onclick="filterProducts('serum',this)">سيروم</button>
+    <button class="filter-btn" onclick="filterProducts('moisturizer',this)">مرطب</button>
+    <button class="filter-btn" onclick="filterProducts('cleanser',this)">غسول</button>
+    <button class="filter-btn" onclick="filterProducts('sunscreen',this)">واقي شمس</button>
+    <button class="filter-btn" onclick="filterProducts('toner',this)">تونر</button>
+    <button class="filter-btn" onclick="filterProducts('eye',this)">عيون</button>
+    <button class="filter-btn" onclick="filterProducts('mask',this)">ماسك</button>
+    <button class="filter-btn" onclick="filterProducts('hair',this)">شعر</button>
+  </div>
+
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-content">
+    <div class="section-tag">قصتنا</div>
+    <h2 class="section-title">كوثر<br>جمال أصيل</h2>
+    <div class="divider"></div>
+    <p class="section-sub" style="margin-bottom:20px">كوثر هو متجرك المفضل لأفضل منتجات العناية الكورية في فلسطين. نختار لكِ كل منتج بعناية لنضمن لكِ الجودة الحقيقية.</p>
+    <p class="section-sub">نؤمن بأن كل امرأة تستحق بشرة صحية ومشرقة — بدون مواد ضارة، بدون تعقيد.</p>
+  </div>
+  <div class="about-visuals">
+    <div class="about-stat"><span class="num">50+</span><span class="lbl">ماركة كورية</span></div>
+    <div class="about-stat"><span class="num">500+</span><span class="lbl">عميلة سعيدة</span></div>
+    <div class="about-stat"><span class="num">100%</span><span class="lbl">منتجات أصلية</span></div>
+    <div class="about-stat"><span class="num">🇵🇸</span><span class="lbl">فلسطين</span></div>
+    <div class="about-big"><p>"لأنكِ تستحقين الأفضل دائماً"</p></div>
+  </div>
+</section>
+
+<!-- HOW TO ORDER -->
+<section id="order">
+  <div class="section-tag">الطلب</div>
+  <h2 class="section-title" style="color:var(--cream)">كيف تطلبين؟</h2>
+  <div class="divider" style="background:linear-gradient(90deg,var(--gold),transparent);margin:20px auto"></div>
+  <p class="section-sub" style="color:var(--text-light);max-width:500px;margin:0 auto">الطلب سهل وسريع — اختاري المنتج وتواصلي معنا مباشرة</p>
+  <div class="order-options">
+    <div class="order-card">
+      <div class="order-icon">💬</div>
+      <h3>واتساب</h3>
+      <p>أرسلي اسم المنتج وعنوانك على واتساب وبنوصله إلك</p>
+      <a href="https://wa.me/972599269950" class="order-btn" target="_blank">راسليني على واتساب</a>
+    </div>
+    <div class="order-card">
+      <div class="order-icon">📱</div>
+      <h3>إنستغرام</h3>
+      <p>تابعينا على إنستغرام وأرسلي رسالة مباشرة لطلب أي منتج</p>
+      <a href="https://instagram.com/kawthar_skincare" class="order-btn" target="_blank">تابعينا على إنستغرام</a>
+    </div>
+    <div class="order-card">
+      <div class="order-icon">📝</div>
+      <h3>نموذج الطلب</h3>
+      <p>أضيفي المنتجات للسلة واملأي النموذج وبنتواصل معك</p>
+      <a href="#contact" class="order-btn">اطلبي الآن</a>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-tag" style="text-align:center">آراء العملاء</div>
+  <h2 class="section-title" style="text-align:center">ماذا قالوا عنا</h2>
+  <div class="divider" style="margin:20px auto"></div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"سيروم COSRX Vitamin C غيّر بشرتي تماماً — أشرق وجهي بشكل لم أتوقعه. وصلني بسرعة ومنتج أصلي!"</blockquote>
+      <div class="reviewer">— نور، رام الله</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"مرطب TOCOBO خفيف جداً ومناسب للبشرة الدهنية، وسعره معقول. خدمة ممتازة وبائعة محترفة!"</blockquote>
+      <div class="reviewer">— لينا، القدس</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Beauty of Joseon أحسن سيروم جربته. والشحن كان سريع جداً. رح أطلب مرة ثانية بالتأكيد!"</blockquote>
+      <div class="reviewer">— سنا، بيت لحم</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"ANUA Heartleaf Toner خفيف وهادئ جداً للبشرة الحساسة. أنصح فيه وبكوثر 100%!"</blockquote>
+      <div class="reviewer">— ميار، نابلس</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag" style="text-align:center">تواصل معنا</div>
+  <h2 class="section-title" style="text-align:center">نحن هنا لمساعدتك</h2>
+  <div class="divider" style="margin:20px auto"></div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3>معلومات التواصل</h3>
+      <p>📱 واتساب: <a href="https://wa.me/972599269950">972-59-926-9950</a></p>
+      <p>📸 إنستغرام: <a href="https://instagram.com/kawthar_skincare">@kawthar_skincare</a></p>
+      <p>📍 فلسطين — رام الله</p>
+      <br>
+      <p style="font-size:13px;color:var(--text-light)">أوقات الرد:<br>السبت — الخميس<br>9 صباحاً — 9 مساءً</p>
+      <br>
+      <p style="font-size:13px;color:var(--text-light)">🚚 توصيل لجميع مناطق فلسطين<br>⏱ خلال 1-3 أيام عمل</p>
+    </div>
+    <div class="contact-form-wrap">
+      <!-- Formspree endpoint: mlganzkw -->
+      <form class="contact-form" id="orderForm" onsubmit="submitOrder(event)">
+        <!-- Hidden fields sent to your email -->
+        <input type="hidden" name="_subject" value="🛍 طلب جديد من موقع كوثر!" />
+        <input type="hidden" name="_language" value="ar" />
+        <input type="hidden" name="cart_items" id="hiddenCart" value="" />
+        <input type="hidden" name="cart_total" id="hiddenTotal" value="" />
+
+        <input type="text"  name="name"    placeholder="الاسم" required />
+        <input type="tel"   name="phone"   placeholder="رقم واتساب" required />
+        <input type="text"  name="city"    placeholder="المدينة / المنطقة" required />
+        <select name="order_type">
+          <option value="">نوع الطلب</option>
+          <option>طلب من السلة</option>
+          <option>استفسار عن منتج</option>
+          <option>طلب مخصص</option>
+          <option>سؤال عن الشحن</option>
+        </select>
+        <textarea name="message" placeholder="أي تفاصيل إضافية..."></textarea>
+
+        <!-- Cart summary shown to user -->
+        <div id="cartSummaryBox" style="display:none;background:var(--gold-pale);border:1px solid var(--gold-light);padding:14px 16px;font-size:13px;color:var(--text-mid);line-height:1.8"></div>
+
+        <button type="submit" class="btn-gold" id="submitBtn">📨 إرسال الطلب</button>
+
+        <!-- Success message -->
+        <div id="successMsg" style="display:none;background:#d4edda;border:1px solid #c3e6cb;padding:16px;text-align:center;color:#155724;font-size:14px">
+          ✅ تم إرسال طلبك بنجاح! سنتواصل معك على واتساب خلال ساعات.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#home">الرئيسية</a>
+    <a href="#products">المتجر</a>
+    <a href="#about">من نحن</a>
+    <a href="#reviews">آراء العملاء</a>
+    <a href="#contact">تواصل معنا</a>
+  </div>
+  &copy; 2026 <span>Kawthar Skincare</span> — صُنع بالحب في فلسطين 🇵🇸
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/972599269950" class="wa-float" target="_blank" title="راسليني على واتساب">💬</a>
+
+<!-- CART MODAL -->
+<div class="cart-modal" id="cartModal" onclick="closeCartOutside(event)">
+  <div class="cart-panel">
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+    <h2>سلة التسوق</h2>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">سلتك فارغة 🛍</div>
+    </div>
+    <div id="cartTotalWrap" style="display:none">
+      <div class="cart-total">الإجمالي: ₪<span id="cartTotal">0</span></div>
+      
+      <a href="#" class="btn-outline" style="display:block;text-align:center" onclick="sendWhatsApp()">إرسال عبر واتساب</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── PRODUCT DATA (all prices +20) ───────────────────────────────
+const brandImages = {
+  'K-SECRET':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'SEOUL 1988':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'CELIMAX':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'TOCOBO':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'ROUND LAB':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'NUMBUZN':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  'VITA-C':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'AXIS-Y':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  'PURITO':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'SOME BY ME':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'SKIN1004':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'COSRX':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  'BEAUTY OF JOSEON':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'ANUA':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'MEDICUBE':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'DR. ALTHEA':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  'EQQUALBERRY':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'ABIB':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'SHISEIDO':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'FINO':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  '&HONEY':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'BY ME':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'BIODANCE':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'HARUHARU':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+  'TSUBAKI':'https://cdn-icons-png.flaticon.com/512/2553/2553700.png',
+  'SECRET KEY':'https://cdn-icons-png.flaticon.com/512/3081/3081559.png',
+  'PIXI':'https://cdn-icons-png.flaticon.com/512/2553/2553691.png',
+  'MOMS BATH':'https://cdn-icons-png.flaticon.com/512/3081/3081579.png',
+};
+
+// Emoji fallback per category
+const catEmoji = {serum:'💧',moisturizer:'🫙',cleanser:'🧴',sunscreen:'☀️',toner:'✨',eye:'👁️',mask:'🌿',hair:'💆'};
+
+const products = [
+  // K-SECRET / Seoul 1988
+  {brand:'K-SECRET',name:'لصقات عيون ريتانول',cat:'eye',price:78},
+  {brand:'K-SECRET',name:'لصقات عيون فيتامين C',cat:'eye',price:78},
+  {brand:'K-SECRET',name:'كريم نياسينيمايد 5%',cat:'moisturizer',price:75},
+  {brand:'K-SECRET',name:'ماسك كولاجين ضد الشيخوخة 60مل',cat:'mask',price:72},
+  {brand:'SEOUL 1988',name:'K-SECRET سيروم عيون 30مل',cat:'eye',price:67},
+  {brand:'SEOUL 1988',name:'K-SECRET سيروم 30مل',cat:'serum',price:72},
+  {brand:'SEOUL 1988',name:'K-SECRET مرطب 200مل',cat:'moisturizer',price:67},
+  {brand:'SEOUL 1988',name:'K-SECRET اسنس 100مل',cat:'toner',price:67},
+  {brand:'SEOUL 1988',name:'K-SECRET غسول رغوي 150مل',cat:'cleanser',price:67},
+  {brand:'SEOUL 1988',name:'K-SECRET واقي شمس 50مل',cat:'sunscreen',price:67},
+  // CELIMAX
+  {brand:'CELIMAX',name:'غسول زيتي للرؤوس السوداء 150مل',cat:'cleanser',price:78},
+  {brand:'CELIMAX',name:'سيروم مهدئ Non 30مل',cat:'serum',price:69},
+  {brand:'CELIMAX',name:'VITA Retinol سيروم شد 15مل',cat:'serum',price:73},
+  {brand:'CELIMAX',name:'VITA SHOOT Retinol Shot 30مل',cat:'serum',price:78},
+  // TOCOBO
+  {brand:'TOCOBO',name:'كريم ترطيب 50مل للبشرة الجافة',cat:'moisturizer',price:85},
+  {brand:'TOCOBO',name:'واقي شمس 50مل لجميع البشرة',cat:'sunscreen',price:65},
+  {brand:'TOCOBO',name:'واقي شمس للبشرة الدهنية 50مل',cat:'sunscreen',price:65},
+  {brand:'TOCOBO',name:'سيروم تهدئة الجلد 50مل',cat:'serum',price:70},
+  {brand:'TOCOBO',name:'ماسك مقشر الشفاه بالليمون 20مل',cat:'mask',price:65},
+  {brand:'TOCOBO',name:'ماسك مقشر الشفاه بزيت الزيتون 20مل',cat:'mask',price:65},
+  {brand:'TOCOBO',name:'تونر الليمون 150مل',cat:'toner',price:79},
+  {brand:'TOCOBO',name:'بالط ومقشر 150مل',cat:'cleanser',price:68},
+  {brand:'TOCOBO',name:'غسول زيتي للبشرة الدهنية 200مل',cat:'cleanser',price:79},
+  {brand:'TOCOBO',name:'كريم ترطيب للعيون 30مل',cat:'eye',price:78},
+  {brand:'TOCOBO',name:'سنستيك واقي شمس 50مل',cat:'sunscreen',price:65},
+  // ROUND LAB
+  {brand:'ROUND LAB',name:'مرطب وجه BIRCH JUICE 200مل',cat:'moisturizer',price:85},
+  {brand:'ROUND LAB',name:'تونر تقشير الخلايا BIRCH JUICE 200مل',cat:'toner',price:75},
+  {brand:'ROUND LAB',name:'واقي شمس BIRCH JUICE 50مل',cat:'sunscreen',price:65},
+  {brand:'ROUND LAB',name:'غسول زيتي 200مل',cat:'cleanser',price:79},
+  {brand:'ROUND LAB',name:'غسول وجه BIRCH JUICE 150مل',cat:'cleanser',price:82},
+  {brand:'ROUND LAB',name:'كريم ترطيب BIRCH JUICE 80مل',cat:'moisturizer',price:85},
+  {brand:'ROUND LAB',name:'واقي شمس ملون 50مل',cat:'sunscreen',price:65},
+  {brand:'ROUND LAB',name:'واقي شمس وسادة',cat:'sunscreen',price:69},
+  {brand:'ROUND LAB',name:'كريم عيون BIRCH JUICE 30مل',cat:'eye',price:75},
+  {brand:'ROUND LAB',name:'سيروم مغذي BIRCH JUICE 45غم',cat:'serum',price:75},
+  {brand:'ROUND LAB',name:'تونر مرطب BIRCH JUICE 300مل',cat:'toner',price:82},
+  {brand:'ROUND LAB',name:'مرطب جل للوجه 150مل',cat:'moisturizer',price:75},
+  // NUMBUZN
+  {brand:'NUMBUZN',name:'تونر 3 لتفتيح البشرة 200مل',cat:'toner',price:80},
+  {brand:'NUMBUZN',name:'تونر 4 للبشرة GLOW 200مل',cat:'toner',price:80},
+  {brand:'NUMBUZN',name:'تونر 5 لجميع البشرة 200مل',cat:'toner',price:80},
+  {brand:'NUMBUZN',name:'تونر 1 للبشرة الحساسة 200مل',cat:'toner',price:80},
+  {brand:'NUMBUZN',name:'سيروم نياسينماميد 5 50مل',cat:'serum',price:80},
+  {brand:'NUMBUZN',name:'سيروم ليلي + ماسك 6 50مل',cat:'serum',price:80},
+  {brand:'NUMBUZN',name:'سيروم ضد البشرة 9 50مل',cat:'serum',price:80},
+  {brand:'NUMBUZN',name:'كريم 1-4 واقي شمس 50مل',cat:'sunscreen',price:80},
+  {brand:'NUMBUZN',name:'تونر 3 مغذي 100مل',cat:'toner',price:55},
+  {brand:'NUMBUZN',name:'تونر الاعشاب 1 100مل',cat:'toner',price:55},
+  {brand:'NUMBUZN',name:'تونر شرائح مغذية 190مل',cat:'toner',price:85},
+  {brand:'NUMBUZN',name:'سيروم مهدئ 7 50مل',cat:'serum',price:80},
+  {brand:'NUMBUZN',name:'سيروم 5 لعلاج التصبغات 30مل',cat:'serum',price:77},
+  {brand:'NUMBUZN',name:'كريم شد البشرة 9BIO LIFTING',cat:'moisturizer',price:88},
+  {brand:'NUMBUZN',name:'لصقات عيون 5*2',cat:'eye',price:78},
+  // VITA-C
+  {brand:'VITA-C',name:'سيروم 40مل',cat:'serum',price:78},
+  {brand:'VITA-C',name:'مرطب للوجه + واقي شمس 150مل',cat:'moisturizer',price:78},
+  {brand:'VITA-C',name:'سيروم مرطب 150مل',cat:'serum',price:88},
+  {brand:'VITA-C',name:'DARK SPOT CLEAR 28مل',cat:'serum',price:83},
+  {brand:'VITA-C',name:'غسول 150مل',cat:'cleanser',price:78},
+  {brand:'VITA-C',name:'كريم عيون',cat:'eye',price:85},
+  {brand:'VITA-C',name:'لصقات عيون 72غم',cat:'eye',price:90},
+  // AXIS-Y
+  {brand:'AXIS-Y',name:'غسول رغوي 120مل',cat:'cleanser',price:62},
+  {brand:'AXIS-Y',name:'سيروم 30مل',cat:'serum',price:60},
+  {brand:'AXIS-Y',name:'تونر 200مل',cat:'toner',price:68},
+  {brand:'AXIS-Y',name:'مقشر للوجه 50مل',cat:'mask',price:60},
+  {brand:'AXIS-Y',name:'سيروم عيون 10مل',cat:'eye',price:62},
+  {brand:'AXIS-Y',name:'سيروم لإزالة الشوائب 15مل',cat:'serum',price:55},
+  {brand:'AXIS-Y',name:'تونر تصحيح البقع 125مل',cat:'toner',price:68},
+  {brand:'AXIS-Y',name:'كريم تصحيح البقع 50مل',cat:'moisturizer',price:72},
+  {brand:'AXIS-Y',name:'DARK SPOT CORRECTING كريم 50مل',cat:'moisturizer',price:58},
+  // PURITO
+  {brand:'PURITO',name:'Mighty Cream مرطب 100مل',cat:'moisturizer',price:79},
+  {brand:'PURITO',name:'Wonder Eye Cream سيروم 30مل',cat:'eye',price:68},
+  // SOME BY ME
+  {brand:'SOME BY ME',name:'كريم AHA-BHA-PHA ميراكل 60مل',cat:'moisturizer',price:73},
+  {brand:'SOME BY ME',name:'كريم Snail Truecica 60جم',cat:'moisturizer',price:70},
+  {brand:'SOME BY ME',name:'صابونة التنظيف المعجزة 106غم',cat:'cleanser',price:45},
+  {brand:'SOME BY ME',name:'كريم تنظيف البشرة والحبوب 100مل',cat:'cleanser',price:63},
+  {brand:'SOME BY ME',name:'غسول BLACKHEAD 120غم',cat:'cleanser',price:75},
+  {brand:'SOME BY ME',name:'سيروم 30مل لجميع البشرة',cat:'serum',price:73},
+  {brand:'SOME BY ME',name:'مرطب 50مل للبشرة الحساسة',cat:'moisturizer',price:73},
+  {brand:'SOME BY ME',name:'سيروم RETINOL INTENSE 30مل',cat:'serum',price:79},
+  {brand:'SOME BY ME',name:'تونر أزرق 150مل',cat:'toner',price:70},
+  {brand:'SOME BY ME',name:'تونر 200مل',cat:'toner',price:70},
+  {brand:'SOME BY ME',name:'واقي شمس Truecica 50مل',cat:'sunscreen',price:65},
+  // SKIN1004
+  {brand:'SKIN1004',name:'سيروم CENTELLA كثيف 100مل',cat:'serum',price:68},
+  {brand:'SKIN1004',name:'واقي شمس CENTELLA PROBIO-CICA 50مل',cat:'sunscreen',price:68},
+  {brand:'SKIN1004',name:'تونر CENTELLA 210مل',cat:'toner',price:68},
+  {brand:'SKIN1004',name:'كريم عيون CENTELLA PROBIO CICA 20مل',cat:'eye',price:68},
+  {brand:'SKIN1004',name:'سيروم CENTELLA BRIGHTENING 100مل',cat:'serum',price:62},
+  {brand:'SKIN1004',name:'سيروم CENTELLA AMPOUL 100مل',cat:'serum',price:68},
+  {brand:'SKIN1004',name:'كريم Soothing Cream 75مل',cat:'moisturizer',price:73},
+  {brand:'SKIN1004',name:'سيروم MATRIXYL 30مل',cat:'serum',price:75},
+  {brand:'SKIN1004',name:'سيروم نياسينيمايد 10 30مل',cat:'serum',price:75},
+  {brand:'SKIN1004',name:'ماسك Poremizing Quick Clay',cat:'mask',price:65},
+  // COSRX
+  {brand:'COSRX',name:'سيروم فيتامين C 23 20مل',cat:'serum',price:73},
+  {brand:'COSRX',name:'سيروم فيتامين C 13 20مل',cat:'serum',price:73},
+  {brand:'COSRX',name:'كريم الريتانول 0.1% 20مل',cat:'moisturizer',price:62},
+  {brand:'COSRX',name:'لصقات حب الشباب 40 لصقة',cat:'mask',price:30},
+  {brand:'COSRX',name:'واقي شمس Ultra Light 50مل',cat:'sunscreen',price:65},
+  {brand:'COSRX',name:'غسول الوجه رغوي 150مل',cat:'cleanser',price:53},
+  {brand:'COSRX',name:'كريم مرطب CENTELLA 30غم',cat:'moisturizer',price:60},
+  {brand:'COSRX',name:'سيروم هايلورونيك 20مل',cat:'serum',price:73},
+  {brand:'COSRX',name:'سيروم نياسينماميد 20مل',cat:'serum',price:73},
+  {brand:'COSRX',name:'لصقات عيون الحلزون 60لصقة',cat:'eye',price:79},
+  {brand:'COSRX',name:'مجموعة ترطيب الحلزون 4 قطع',cat:'moisturizer',price:75},
+  {brand:'COSRX',name:'غسول إزالة الرؤوس السوداء 100مل',cat:'cleanser',price:65},
+  {brand:'COSRX',name:'تونر بخار 150مل',cat:'toner',price:53},
+  {brand:'COSRX',name:'كريم عيون الحلزون 25مل',cat:'eye',price:79},
+  {brand:'COSRX',name:'سيروم ريتانول الوجه 20مل',cat:'serum',price:73},
+  // BEAUTY OF JOSEON
+  {brand:'BEAUTY OF JOSEON',name:'ماء السيروم بالجينسنغ 150مل',cat:'serum',price:65},
+  {brand:'BEAUTY OF JOSEON',name:'زيت التنظيف بالجينسنغ 210مل',cat:'cleanser',price:73},
+  {brand:'BEAUTY OF JOSEON',name:'واقي شمس ستيك 18غم',cat:'sunscreen',price:62},
+  {brand:'BEAUTY OF JOSEON',name:'سيروم الأرز بنخالة 30مل',cat:'serum',price:55},
+  {brand:'BEAUTY OF JOSEON',name:'سيروم نياسينماميد 30مل',cat:'serum',price:55},
+  {brand:'BEAUTY OF JOSEON',name:'سيروم الحلزون 30مل',cat:'serum',price:55},
+  {brand:'BEAUTY OF JOSEON',name:'سيروم الشاي الأخضر 30مل',cat:'serum',price:55},
+  {brand:'BEAUTY OF JOSEON',name:'سيروم العيون REVIVE 50مل',cat:'eye',price:63},
+  {brand:'BEAUTY OF JOSEON',name:'واقي شمس الأرز 37مل',cat:'sunscreen',price:57},
+  {brand:'BEAUTY OF JOSEON',name:'تونر 150مل',cat:'toner',price:74},
+  {brand:'BEAUTY OF JOSEON',name:'تونر الحليب 250مل',cat:'toner',price:75},
+  {brand:'BEAUTY OF JOSEON',name:'تونر الخوخ الأخضر 150مل',cat:'toner',price:65},
+  {brand:'BEAUTY OF JOSEON',name:'مرطب وجه 63مل',cat:'moisturizer',price:83},
+  {brand:'BEAUTY OF JOSEON',name:'ماسك وجه 150مل',cat:'mask',price:74},
+  {brand:'BEAUTY OF JOSEON',name:'مرطب AQUA FRESH 50مل',cat:'moisturizer',price:59},
+  {brand:'BEAUTY OF JOSEON',name:'مرطب 100مل',cat:'moisturizer',price:88},
+  // ANUA
+  {brand:'ANUA',name:'كريم Peach 77 بحجم 50مل',cat:'moisturizer',price:85,isNew:true},
+  {brand:'ANUA',name:'تونر هارتليف 77% 250مل',cat:'toner',price:68},
+  {brand:'ANUA',name:'تونر باد 160مل',cat:'toner',price:78},
+  {brand:'ANUA',name:'غسول رغوي 150مل',cat:'cleanser',price:62},
+  {brand:'ANUA',name:'كريم واقي شمس SUN 50مل',cat:'sunscreen',price:73},
+  {brand:'ANUA',name:'مرطب Conditioning 150مل',cat:'moisturizer',price:79},
+  {brand:'ANUA',name:'سيروم نياسينماميد 30مل',cat:'serum',price:76},
+  {brand:'ANUA',name:'سيروم هايلورونيك +100 30مل',cat:'serum',price:76},
+  {brand:'ANUA',name:'سيروم Azelaic Acid 10 30مل',cat:'serum',price:76},
+  {brand:'ANUA',name:'لصقات وجه PDRN+هايلورونيك 60لصقة',cat:'mask',price:78},
+  {brand:'ANUA',name:'واقي شمس 50SPF 50مل',cat:'sunscreen',price:73},
+  {brand:'ANUA',name:'غسول زيتي 200مل',cat:'cleanser',price:69},
+  {brand:'ANUA',name:'تونر ترطيب الخوخ 250مل',cat:'toner',price:79},
+  {brand:'ANUA',name:'سيروم تفتيح Peach 30مل',cat:'serum',price:77},
+  {brand:'ANUA',name:'سيروم ترطيب Rice+Ceramide 7+ 50مل',cat:'serum',price:77},
+  // MEDICUBE
+  {brand:'MEDICUBE',name:'كريم فيتامين C DEEP 55غم',cat:'moisturizer',price:82},
+  {brand:'MEDICUBE',name:'ماسك Pore Blackhead Mud 100غم',cat:'mask',price:69},
+  {brand:'MEDICUBE',name:'مرطب PDRN Pink Collagen 55غم',cat:'moisturizer',price:79},
+  {brand:'MEDICUBE',name:'ماسك كولاجين Kojic Acid 75مل',cat:'mask',price:78},
+  {brand:'MEDICUBE',name:'سيروم PDRN SET 10*1.5مل',cat:'serum',price:73},
+  {brand:'MEDICUBE',name:'كريم تحت العين PDRN PEPTIDE 30مل',cat:'eye',price:68},
+  {brand:'MEDICUBE',name:'سيروم بنك كولاجين PDRN 30مل',cat:'serum',price:80},
+  {brand:'MEDICUBE',name:'كريم TXA نياسينماميد 55مل',cat:'moisturizer',price:79},
+  {brand:'MEDICUBE',name:'مرطب نهاري 50مل',cat:'moisturizer',price:85},
+  {brand:'MEDICUBE',name:'سيروم ONE DAY 30مل',cat:'serum',price:78},
+  {brand:'MEDICUBE',name:'غسول رغوي 120مل',cat:'cleanser',price:72},
+  {brand:'MEDICUBE',name:'سيروم الامبول 30مل',cat:'serum',price:82},
+  {brand:'MEDICUBE',name:'كريم جل الكولاجين 110مل',cat:'moisturizer',price:83},
+  {brand:'MEDICUBE',name:'سيروم NIACINAMIDE 30مل',cat:'serum',price:73},
+  {brand:'MEDICUBE',name:'سيروم HYALURONIC 30مل',cat:'serum',price:73},
+  // DR. ALTHEA
+  {brand:'DR. ALTHEA',name:'بلسم التفتيح CLEANSING BALB 50مل',cat:'cleanser',price:68},
+  {brand:'DR. ALTHEA',name:'سيروم نياسينماميد 15% 30مل',cat:'serum',price:73},
+  {brand:'DR. ALTHEA',name:'سيروم ريتانول 0.1% 30مل',cat:'serum',price:73},
+  {brand:'DR. ALTHEA',name:'كريم مرطب 345 50مل',cat:'moisturizer',price:69},
+  {brand:'DR. ALTHEA',name:'كريم مرطب 147 50مل',cat:'moisturizer',price:69},
+  {brand:'DR. ALTHEA',name:'سيروم عيون 25مل',cat:'eye',price:53},
+  {brand:'DR. ALTHEA',name:'سيروم VITAMIN C BOOSTING 30مل',cat:'serum',price:73},
+  {brand:'DR. ALTHEA',name:'سيروم تفتيح VITAMIN C 30مل',cat:'serum',price:73},
+  {brand:'DR. ALTHEA',name:'غسول بلسم 50مل',cat:'cleanser',price:68},
+  // EQQUALBERRY
+  {brand:'EQQUALBERRY',name:'كريم 50مل',cat:'moisturizer',price:88},
+  {brand:'EQQUALBERRY',name:'سيروم Bakuchiol Plumping 30مل',cat:'serum',price:80},
+  {brand:'EQQUALBERRY',name:'سيروم Vitamin Illuminating',cat:'serum',price:80},
+  {brand:'EQQUALBERRY',name:'تونر مرطب بالهايلارونيك 300مل',cat:'toner',price:79},
+  {brand:'EQQUALBERRY',name:'سيروم NAD+ PEPTIDE BOOSTING 30مل',cat:'serum',price:92},
+  {brand:'EQQUALBERRY',name:'سيروم HYAL TION FLOODING 30مل',cat:'serum',price:92},
+  {brand:'EQQUALBERRY',name:'سيروم PDRN 30مل',cat:'serum',price:92},
+  // ABIB
+  {brand:'ABIB',name:'سيروم الترطيح JERICHO ROSE 50مل',cat:'serum',price:73},
+  {brand:'ABIB',name:'سيروم HEARTLEAF TECA 50مل',cat:'serum',price:73},
+  {brand:'ABIB',name:'بكج العناية 30مل',cat:'serum',price:85},
+  {brand:'ABIB',name:'واقي شمس ستيك SPF 50+',cat:'sunscreen',price:72},
+  // SHISEIDO
+  {brand:'SHISEIDO',name:'كريم لحماية البشرة 7مل',cat:'moisturizer',price:290,isNew:true},
+  {brand:'SHISEIDO',name:'كريم لحماية البشرة 15مل',cat:'moisturizer',price:170},
+  {brand:'SHISEIDO',name:'كريم لعلاج علامات تقدم البشرة 50مل',cat:'moisturizer',price:260},
+  // FINO
+  {brand:'FINO',name:'بلسم شعر 550مل',cat:'hair',price:55},
+  {brand:'FINO',name:'شامبو 550مل',cat:'hair',price:55},
+  {brand:'FINO',name:'زيت شعر 70مل',cat:'hair',price:55},
+  {brand:'FINO',name:'ماسك شعر للشعر التالف 230غم',cat:'hair',price:50},
+  // &HONEY
+  {brand:'&HONEY',name:'بلسم شعر تالف 450مل',cat:'hair',price:83},
+  {brand:'&HONEY',name:'شامبو الشعر التالف 450مل',cat:'hair',price:83},
+  {brand:'&HONEY',name:'شامبو ترطيب للشعر الجاف 440مل',cat:'hair',price:83},
+  {brand:'&HONEY',name:'شامبو العسل والحليب 500مل',cat:'hair',price:83},
+  {brand:'&HONEY',name:'بلسم العسل والحليب العلاجي 500مل',cat:'hair',price:83},
+  // BY ME (Rice line)
+  {brand:'BY ME',name:'غسول زيتي 200مل',cat:'cleanser',price:73},
+  {brand:'BY ME',name:'سيروم ترطيب أنا من الأرز 30مل',cat:'serum',price:78},
+  {brand:'BY ME',name:'واقي شمس الأرز 150مل',cat:'sunscreen',price:75},
+  {brand:'BY ME',name:'تونر الأرز 150مل',cat:'toner',price:73},
+  {brand:'BY ME',name:'كريم تفتيح الأرز 50مل',cat:'moisturizer',price:83},
+  // BIODANCE
+  {brand:'BIODANCE',name:'ماسك ترطيب Bio Collagen',cat:'mask',price:73},
+  {brand:'BIODANCE',name:'ماسك SEA KELP',cat:'mask',price:73},
+  {brand:'BIODANCE',name:'ماسك بالنياسينماميد',cat:'mask',price:73},
+  {brand:'BIODANCE',name:'ماسك HYDRO CERA NOL 34غم',cat:'mask',price:73},
+  // PIXI
+  {brand:'PIXI',name:'لصقات عيون',cat:'eye',price:100},
+  // HARUHARU
+  {brand:'HARUHARU',name:'غسول زيتي ومرطب 100مل',cat:'cleanser',price:75},
+  // TSUBAKI
+  {brand:'TSUBAKI',name:'شامبو 500مل',cat:'hair',price:75},
+  {brand:'TSUBAKI',name:'بلسم شعر 500مل',cat:'hair',price:75},
+  {brand:'TSUBAKI',name:'كريم إصلاح الشعر 180غم',cat:'hair',price:55},
+  // SECRET KEY
+  {brand:'SECRET KEY',name:'كريم SNOW WHITE تفتيح 200مل',cat:'moisturizer',price:65},
+  {brand:'SECRET KEY',name:'كريم SNOW WHITE 50غم',cat:'moisturizer',price:60},
+  {brand:'SECRET KEY',name:'جل تفتيح الوجه SNOW WHITE 65مل',cat:'moisturizer',price:60},
+  // MOMS BATH
+  {brand:'MOMS BATH',name:'لوشن للوجه والجسم 150مل',cat:'moisturizer',price:155},
+  {brand:'MOMS BATH',name:'ليفة التقشير PEELING PAD GREEN',cat:'mask',price:95},
+  {brand:'MOMS BATH',name:'ليفة التقشير TROUBLE CARE PINK',cat:'mask',price:95},
+];
+
+// ─── CART ───────────────────────────────────────────────
+let cart = [];
+
+function addToCart(btn, idx){
+  const p = window.filteredProducts[idx];
+  cart.push(p);
+  updateCartUI();
+  btn.textContent = 'تمت الإضافة ✓';
+  btn.style.background = 'var(--gold)';
+  btn.style.color = '#fff';
+  setTimeout(()=>{ btn.textContent = 'أضيفي للسلة'; btn.style.background=''; btn.style.color=''; }, 1800);
+}
+
+function removeFromCart(i){
+  cart.splice(i,1);
+  updateCartUI();
+}
+
+function updateCartUI(){
+  document.getElementById('cartCount').textContent = cart.length;
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const totalWrap = document.getElementById('cartTotalWrap');
+  if(cart.length===0){
+    emptyEl.style.display='block'; totalWrap.style.display='none';
+    itemsEl.innerHTML='<div class="cart-empty" id="cartEmpty">سلتك فارغة 🛍</div>';
+    return;
+  }
+  emptyEl && (emptyEl.style.display='none');
+  totalWrap.style.display='block';
+  const total = cart.reduce((s,p)=>s+p.price,0);
+  document.getElementById('cartTotal').textContent = total;
+  itemsEl.innerHTML = cart.map((p,i)=>`
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <h4>${p.brand} — ${p.name}</h4>
+        <span>₪${p.price}</span>
+      </div>
+      <button class="remove-btn" onclick="removeFromCart(${i})">✕</button>
+    </div>
+  `).join('');
+  // Update contact form summary
+  const box = document.getElementById('cartSummaryBox');
+  if(box){
+    if(cart.length > 0){
+      box.style.display='block';
+      box.innerHTML='<strong>🛍 منتجاتك في السلة:</strong><br>'+cart.map(p=>`• ${p.brand} — ${p.name} (₪${p.price})`).join('<br>')+`<br><br><strong>الإجمالي: ₪${total}</strong>`;
+    } else {
+      box.style.display='none';
+    }
+  }
+  // Keep hidden fields updated
+  const hc = document.getElementById('hiddenCart');
+  const ht = document.getElementById('hiddenTotal');
+  if(hc) hc.value = cart.length > 0 ? cart.map(p=>`• ${p.brand} — ${p.name} (₪${p.price})`).join('\n')+`\n\nالإجمالي: ₪${total}` : '';
+  if(ht) ht.value = cart.length > 0 ? `₪${total}` : '';
+}
+
+function toggleCart(){
+  document.getElementById('cartModal').classList.toggle('open');
+}
+function closeCartOutside(e){
+  if(e.target===document.getElementById('cartModal')) toggleCart();
+}
+
+function goToOrder(){
+  toggleCart();
+  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+}
+
+function sendWhatsApp(){
+  const total = cart.reduce((s,p)=>s+p.price,0);
+  const items = cart.map(p=>`• ${p.brand} - ${p.name} (₪${p.price})`).join('%0A');
+  const msg = `مرحبا كوثر 🌸%0Aأريد طلب:%0A${items}%0A%0Aالإجمالي: ₪${total}`;
+  window.open(`https://wa.me/972599269950?text=${msg}`,'_blank');
+}
+
+// ─── PRODUCTS RENDER ────────────────────────────────────
+window.filteredProducts = products;
+
+function renderProducts(filter){
+  window.filteredProducts = filter==='all' ? products : products.filter(p=>p.cat===filter);
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = window.filteredProducts.map((p,i)=>`
+    <div class="product-card">
+      ${p.isNew ? '<span class="new-badge">جديد</span>' : ''}
+      <div class="product-img-wrap">
+        <img src="${brandImages[p.brand]||'https://cdn-icons-png.flaticon.com/512/3081/3081559.png'}"
+             alt="${p.name}"
+             onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'display:flex;align-items:center;justify-content:center;height:100%;font-size:60px\\'>${catEmoji[p.cat]||'✨'}</div>'"
+        />
+        <div class="product-overlay">
+          <span style="font-family:Jost,sans-serif;font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase">اعرفي أكثر</span>
+        </div>
+      </div>
+      <span class="brand-badge">${p.brand}</span>
+      <div class="product-info">
+        <div class="product-brand-label">${p.brand}</div>
+        <h3>${p.name}</h3>
+        <div class="product-footer">
+          <span class="product-price">₪${p.price}</span>
+          <button class="add-btn" onclick="addToCart(this,${i})">أضيفي للسلة</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(cat, btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+async function submitOrder(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn  = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
+
+  // Build cart text for email
+  const total = cart.reduce((s,p)=>s+p.price,0);
+  const cartText = cart.length > 0
+    ? cart.map(p=>`• ${p.brand} — ${p.name} (₪${p.price})`).join('\n') + `\n\nالإجمالي: ₪${total}`
+    : 'لا توجد منتجات في السلة';
+
+  // Fill hidden fields
+  document.getElementById('hiddenCart').value  = cartText;
+  document.getElementById('hiddenTotal').value = cart.length > 0 ? `₪${total}` : '—';
+
+  // Show loading
+  btn.textContent = '⏳ جاري الإرسال...';
+  btn.disabled = true;
+
+  try {
+    // Send to Formspree → arrives in your email
+    const res = await fetch('https://formspree.io/f/mlganzkw', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    });
+
+    if(res.ok){
+      // Show success
+      form.reset();
+      cart = [];
+      updateCartUI();
+      successMsg.style.display = 'block';
+      btn.style.display = 'none';
+
+      // Also open WhatsApp with order details
+      const name  = form.querySelector('[name=name]').value  || '';
+      const phone = form.querySelector('[name=phone]').value || '';
+      const city  = form.querySelector('[name=city]').value  || '';
+      const waItems = cart.length > 0
+        ? cart.map(p=>`• ${p.brand} - ${p.name} (₪${p.price})`).join('%0A')
+        : encodeURIComponent(cartText);
+      const waMsg = `مرحبا كوثر 🌸%0Aطلب جديد من الموقع:%0Aالاسم: ${encodeURIComponent(name)}%0Aواتساب: ${encodeURIComponent(phone)}%0Aالمدينة: ${encodeURIComponent(city)}%0A%0Aالمنتجات:%0A${waItems}`;
+      setTimeout(()=>{ window.open(`https://wa.me/972599269950?text=${waMsg}`,'_blank'); }, 800);
+
+    } else {
+      throw new Error('Formspree error');
+    }
+  } catch(err){
+    btn.textContent = '❌ حصل خطأ — حاول مجدداً';
+    btn.disabled = false;
+    setTimeout(()=>{ btn.textContent = '📨 إرسال الطلب'; btn.disabled=false; }, 3000);
+  }
+}
+
+renderProducts('all');
+</script>
+</body>
+</html>

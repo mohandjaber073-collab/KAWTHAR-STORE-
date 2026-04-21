@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-ar="من نحن | كوثر" data-en="About | Kawthar">من نحن | كوثر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&family=Cairo:wght@300;400;500;600;700&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.about-hero{
+  padding: calc(var(--nav-h) + 80px) 56px 80px;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--pink-soft) 60%, var(--pink) 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+.about-hero::before{content:'';position:absolute;top:-120px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,var(--gold-pale),transparent 70%);opacity:.5}
+.about-hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(52px,7vw,92px);
+  font-weight:500;line-height:1.05;color:var(--text);
+  margin-bottom:20px;letter-spacing:1px;position:relative;
+}
+.about-hero h1 em{color:var(--gold);font-style:italic;font-weight:400}
+.about-hero p{color:var(--text-mid);font-size:17px;line-height:1.85;max-width:640px;margin:0 auto;position:relative}
+
+.story-section{padding:100px 48px;background:var(--bg);display:flex;gap:60px;align-items:center;flex-wrap:wrap;max-width:1200px;margin:0 auto}
+.story-text{flex:1;min-width:300px}
+.story-visual{
+  flex:1;min-width:280px;height:480px;
+  background: linear-gradient(135deg, var(--gold-pale) 0%, var(--pink) 100%);
+  border-radius: var(--radius-lg);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.story-visual::before{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.4);top:50px;right:50px}
+.story-visual::after{content:'';position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(201,169,110,.3);bottom:50px;left:50px}
+.story-visual svg{width:120px;height:120px;stroke:var(--gold);fill:none;stroke-width:1;position:relative;z-index:2;opacity:.9}
+
+@media(max-width:768px){
+  .about-hero{padding: calc(var(--nav-h) + 40px) 22px 60px}
+  .story-section{padding:70px 22px;gap:40px}
+  .story-visual{height:340px}
+}
+</style>
+</head>
+<body>
+
+<nav></nav>
+
+<section class="about-hero">
+  <h1>
+    <span data-ar="قصة" data-en="The story of">قصة</span>
+    <em data-ar="كوثر" data-en="Kawthar">كوثر</em>
+  </h1>
+  <p data-ar="بدأت كوثر من حبنا للجمال الحقيقي والعناية الصادقة بالبشرة. كل منتج نختاره لكِ هو قصة اهتمام، جودة، وثقة."
+     data-en="Kawthar began from our love for real beauty and honest skincare. Every product we choose is a story of care, quality, and trust.">
+    بدأت كوثر من حبنا للجمال الحقيقي والعناية الصادقة بالبشرة.
+  </p>
+</section>
+
+<section class="story-section">
+  <div class="story-text">
+    <span class="section-tag" data-ar="رحلتنا" data-en="Our Journey">رحلتنا</span>
+    <h2 class="section-title">
+      <span data-ar="من العالم" data-en="From the world">من العالم</span>
+      <em data-ar="إليكِ" data-en="to you">إليكِ</em>
+    </h2>
+    <div class="divider"></div>
+    <p class="section-sub" style="margin-bottom:18px"
+       data-ar="نحن نؤمن بأن العناية بالبشرة ليست مجرد روتين — بل طقس جمالي يمنحك الثقة والإشراق كل يوم."
+       data-en="We believe skincare is more than a routine — it's a daily ritual that gives you confidence and radiance.">
+      نحن نؤمن بأن العناية بالبشرة ليست مجرد روتين — بل طقس جمالي يمنحك الثقة والإشراق كل يوم.
+    </p>
+    <p class="section-sub" style="margin-bottom:18px"
+       data-ar="نختار أفضل الماركات من كل أنحاء العالم ونوصلها إلى فلسطين بكل حب واهتمام، لأنكِ تستحقين الأفضل."
+       data-en="We curate the finest brands from around the world and deliver them to Palestine with love and care, because you deserve the best.">
+      نختار أفضل الماركات من كل أنحاء العالم ونوصلها إلى فلسطين بكل حب واهتمام.
+    </p>
+    <p class="section-sub"
+       data-ar="هدفنا أن نكون صديقتك الموثوقة في رحلتك نحو بشرة صحية ومشرقة — بصدق، ببساطة، وبكل تفاصيل تهمك."
+       data-en="Our goal is to be your trusted friend on your journey to healthy, glowing skin — honestly, simply, and with every detail you care about.">
+      هدفنا أن نكون صديقتك الموثوقة في رحلتك نحو بشرة صحية ومشرقة.
+    </p>
+  </div>
+  <div class="story-visual">
+    <svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="about-content">
+    <span class="section-tag" data-ar="بالأرقام" data-en="By the numbers">بالأرقام</span>
+    <h2 class="section-title">
+      <em data-ar="ثقة" data-en="Trust">ثقة</em>
+      <span data-ar="تبنى يوماً بعد يوم" data-en="built day by day">تبنى يوماً بعد يوم</span>
+    </h2>
+    <div class="divider"></div>
+    <p class="section-sub"
+       data-ar="كل رقم يحكي قصة عميلة سعيدة، منتج أصلي، ولحظة وثوق جميلة معنا."
+       data-en="Every number tells a story of a happy customer, an authentic product, and a beautiful moment of trust.">
+      كل رقم يحكي قصة عميلة سعيدة، منتج أصلي، ولحظة وثوق جميلة معنا.
+    </p>
+  </div>
+  <div class="about-visuals">
+    <div class="about-stat"><span class="num">50+</span><span class="lbl lbl-ar" data-ar="ماركة عالمية" data-en="Global Brands">ماركة عالمية</span></div>
+    <div class="about-stat"><span class="num">500+</span><span class="lbl lbl-ar" data-ar="عميلة سعيدة" data-en="Happy Clients">عميلة سعيدة</span></div>
+    <div class="about-stat"><span class="num">100%</span><span class="lbl lbl-ar" data-ar="منتجات أصلية" data-en="Authentic">منتجات أصلية</span></div>
+    <div class="about-stat"><span class="num">200+</span><span class="lbl lbl-ar" data-ar="منتج مميز" data-en="Curated Items">منتج مميز</span></div>
+    <div class="about-big"><p data-ar="لأنكِ تستحقين الأفضل دائماً" data-en="Because you always deserve the best">لأنكِ تستحقين الأفضل دائماً</p></div>
+  </div>
+</section>
+
+<section class="policy-section center-wrap">
+  <span class="section-tag" data-ar="ضمانتنا" data-en="Our Promise">ضمانتنا</span>
+  <h2 class="section-title"><span data-ar="قيمنا" data-en="Our">قيمنا</span> <em data-ar="الأصيلة" data-en="Values">الأصيلة</em></h2>
+  <div class="divider"></div>
+  <div class="policy-grid">
+    <div class="policy-card">
+      <div class="policy-icon" id="pIcon1"></div>
+      <h3 data-ar="منتجات أصلية" data-en="100% Authentic">منتجات أصلية</h3>
+      <p data-ar="كل منتج أصلي 100% ومصدره من الماركات العالمية الموثوقة" data-en="Every product is 100% genuine, sourced from trusted global brands.">
+        كل منتج أصلي 100% ومصدره من الماركات العالمية الموثوقة
+      </p>
+    </div>
+    <div class="policy-card">
+      <div class="policy-icon" id="pIcon2"></div>
+      <h3 data-ar="توصيل سريع" data-en="Fast Delivery">توصيل سريع</h3>
+      <p data-ar="توصيل خلال 1-3 أيام لجميع أنحاء فلسطين" data-en="1–3 day delivery all across Palestine.">
+        توصيل خلال 1-3 أيام لجميع أنحاء فلسطين
+      </p>
+    </div>
+    <div class="policy-card">
+      <div class="policy-icon" id="pIcon3"></div>
+      <h3 data-ar="اختيار بعناية" data-en="Hand-picked">اختيار بعناية</h3>
+      <p data-ar="كل منتج مختار بعناية ومجرب قبل أن يصل إليكِ" data-en="Every item is tried and tested before it reaches you.">
+        كل منتج مختار بعناية ومجرب قبل أن يصل إليكِ
+      </p>
+    </div>
+    <div class="policy-card">
+      <div class="policy-icon" id="pIcon4"></div>
+      <h3 data-ar="دعم 24/7" data-en="24/7 Support">دعم 24/7</h3>
+      <p data-ar="استشارة مجانية — راسلينا على واتساب في أي وقت" data-en="Free consultation — message us on WhatsApp anytime.">
+        استشارة مجانية — راسلينا على واتساب في أي وقت
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="order-section">
+  <span class="section-tag" data-ar="الطلب" data-en="How to Order">الطلب</span>
+  <h2 class="section-title" data-ar="كيف تطلبين؟" data-en="How to order?">كيف تطلبين؟</h2>
+  <div class="divider" style="background:linear-gradient(90deg,var(--gold),transparent);margin:22px auto"></div>
+  <p class="section-sub"
+     data-ar="الطلب سهل وسريع — اختاري المنتج وتواصلي معنا مباشرة"
+     data-en="Ordering is easy and fast — pick your product and reach out to us.">
+    الطلب سهل وسريع — اختاري المنتج وتواصلي معنا مباشرة
+  </p>
+  <div class="order-options">
+    <div class="order-card">
+      <div class="order-icon" id="oIcon1"></div>
+      <h3 data-ar="واتساب" data-en="WhatsApp">واتساب</h3>
+      <p data-ar="أرسلي اسم المنتج وعنوانك على واتساب وبنوصله إلك"
+         data-en="Send us the product name and your address on WhatsApp and we'll deliver it.">
+        أرسلي اسم المنتج وعنوانك على واتساب وبنوصله إلك
+      </p>
+      <a href="https://wa.me/972599269950" class="btn btn-soft" target="_blank"
+         data-ar="راسليني على واتساب" data-en="Message us">راسليني على واتساب</a>
+    </div>
+    <div class="order-card">
+      <div class="order-icon" id="oIcon2"></div>
+      <h3 data-ar="إنستغرام" data-en="Instagram">إنستغرام</h3>
+      <p data-ar="تابعينا على إنستغرام وأرسلي رسالة مباشرة لطلب أي منتج"
+         data-en="Follow us on Instagram and DM us to order any product.">
+        تابعينا على إنستغرام وأرسلي رسالة مباشرة لطلب أي منتج
+      </p>
+      <a href="https://instagram.com/kawthar_skincare" class="btn btn-soft" target="_blank"
+         data-ar="تابعينا" data-en="Follow us">تابعينا على إنستغرام</a>
+    </div>
+    <div class="order-card">
+      <div class="order-icon" id="oIcon3"></div>
+      <h3 data-ar="نموذج الطلب" data-en="Order Form">نموذج الطلب</h3>
+      <p data-ar="أضيفي المنتجات للسلة واملأي النموذج وبنتواصل معك"
+         data-en="Add items to your bag, fill the form, and we'll get in touch.">
+        أضيفي المنتجات للسلة واملأي النموذج وبنتواصل معك
+      </p>
+      <a href="#contact" class="btn btn-soft" data-ar="اطلبي الآن" data-en="Order Now">اطلبي الآن</a>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <span class="section-tag" data-ar="تواصل معنا" data-en="Get in Touch">تواصل معنا</span>
+  <h2 class="section-title"><span data-ar="نحن هنا" data-en="We're here">نحن هنا</span> <em data-ar="لمساعدتك" data-en="to help">لمساعدتك</em></h2>
+  <div class="divider" style="margin:22px auto"></div>
+
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h3 data-ar="معلومات التواصل" data-en="Contact Info">معلومات التواصل</h3>
+      <p id="cInfoPhone"></p>
+      <p id="cInfoInsta"></p>
+      <p id="cInfoMap"></p>
+      <span class="meta"
+            data-ar="أوقات الرد: السبت — الخميس · 9 صباحاً — 9 مساءً"
+            data-en="Reply hours: Sat — Thu · 9 AM — 9 PM">
+        أوقات الرد: السبت — الخميس · 9 صباحاً — 9 مساءً
+      </span>
+      <span class="meta"
+            data-ar="توصيل لجميع مناطق فلسطين · خلال 1-3 أيام عمل"
+            data-en="Delivery across Palestine · 1–3 business days">
+        توصيل لجميع مناطق فلسطين · خلال 1-3 أيام عمل
+      </span>
+    </div>
+    <div class="contact-form-wrap">
+      <form class="contact-form" id="orderForm" onsubmit="submitOrder(event)">
+        <input type="hidden" name="_subject" value="طلب جديد من موقع كوثر" />
+        <input type="hidden" name="_language" value="ar" />
+        <input type="hidden" name="cart_items" id="hiddenCart" value="" />
+        <input type="hidden" name="cart_total" id="hiddenTotal" value="" />
+
+        <input type="text" name="name" required
+               data-ar-placeholder="الاسم" data-en-placeholder="Full name"
+               placeholder="الاسم" />
+        <input type="tel" name="phone" required
+               data-ar-placeholder="رقم واتساب" data-en-placeholder="WhatsApp number"
+               placeholder="رقم واتساب" />
+        <input type="text" name="city" required
+               data-ar-placeholder="المدينة / المنطقة" data-en-placeholder="City / Region"
+               placeholder="المدينة / المنطقة" />
+        <select name="order_type">
+          <option value="" data-ar="نوع الطلب" data-en="Order type">نوع الطلب</option>
+          <option data-ar="طلب من السلة" data-en="Order from bag">طلب من السلة</option>
+          <option data-ar="استفسار عن منتج" data-en="Product inquiry">استفسار عن منتج</option>
+          <option data-ar="طلب مخصص" data-en="Custom order">طلب مخصص</option>
+          <option data-ar="سؤال عن الشحن" data-en="Shipping question">سؤال عن الشحن</option>
+        </select>
+        <textarea name="message"
+                  data-ar-placeholder="أي تفاصيل إضافية..."
+                  data-en-placeholder="Any additional details..."
+                  placeholder="أي تفاصيل إضافية..."></textarea>
+
+        <div id="cartSummaryBox"></div>
+
+        <button type="submit" class="btn btn-gold" id="submitBtn" style="width:100%">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          <span class="btn-label" data-ar="إرسال الطلب" data-en="Send order">إرسال الطلب</span>
+        </button>
+
+        <div id="successMsg"
+             data-ar="تم إرسال طلبك بنجاح! سنتواصل معك على واتساب خلال ساعات."
+             data-en="Your order was sent! We'll reach out on WhatsApp shortly.">
+          تم إرسال طلبك بنجاح! سنتواصل معك على واتساب خلال ساعات.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer></footer>
+
+<script src="shared.js"></script>
+<script>
+// Policy icons
+document.getElementById('pIcon1').innerHTML = ICONS.shield;
+document.getElementById('pIcon2').innerHTML = ICONS.truck;
+document.getElementById('pIcon3').innerHTML = ICONS.heart;
+document.getElementById('pIcon4').innerHTML = ICONS.phone;
+
+// Order icons
+document.getElementById('oIcon1').innerHTML = ICONS.wa;
+document.getElementById('oIcon2').innerHTML = ICONS.insta;
+document.getElementById('oIcon3').innerHTML = ICONS.edit;
+
+// Contact info with SVG
+document.getElementById('cInfoPhone').innerHTML = ICONS.phone + ' <span data-ar="واتساب:" data-en="WhatsApp:">واتساب:</span> <a href="https://wa.me/972599269950">972-59-926-9950</a>';
+document.getElementById('cInfoInsta').innerHTML = ICONS.insta + ' <span data-ar="إنستغرام:" data-en="Instagram:">إنستغرام:</span> <a href="https://instagram.com/kawthar_skincare">@kawthar_skincare</a>';
+document.getElementById('cInfoMap').innerHTML   = ICONS.map   + ' <span data-ar="فلسطين — رام الله" data-en="Palestine — Ramallah">فلسطين — رام الله</span>';
+
+initKawthar({ active: 'about' });
+</script>
+</body>
+</html>

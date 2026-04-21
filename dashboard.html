@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kawthar · Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Jost:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A96E;
+  --gold-deep:#A88B52;
+  --gold-pale:#F7F0E6;
+  --dark:#1A1108;
+  --dark-2:#261A0E;
+  --dark-3:#2F2215;
+  --dark-4:#3A2C1B;
+  --text:#2C2318;
+  --text-mid:#6B5A4E;
+  --text-light:#A89080;
+  --bg:#FBF8F4;
+  --surface:#fff;
+  --border:#ECDFC9;
+  --border-soft:#F4EBDB;
+  --radius:16px;
+  --radius-sm:12px;
+  --radius-full:999px;
+  --green:#2E7D32;
+  --green-bg:#E8F5E9;
+  --pink-deep:#C9909A;
+  --shadow: 0 8px 28px rgba(44,35,24,.06);
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+body{
+  font-family:'Inter','Jost',sans-serif;
+  background:var(--bg);color:var(--text);
+  font-size:14px;line-height:1.6;min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ─── LOGIN GATE ─── */
+.login-gate{
+  position:fixed;inset:0;z-index:9999;
+  background: linear-gradient(135deg, #1A1108, #2C2318);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.login-box{
+  background:var(--surface);
+  padding:50px 46px;
+  border-radius: var(--radius);
+  width:100%;max-width:400px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.4);
+  text-align:center;
+}
+.login-box .brand{
+  font-family:'Playfair Display',serif;
+  font-size:36px;font-weight:500;letter-spacing:3px;
+  color:var(--text);margin-bottom:6px;
+}
+.login-box .brand em{color:var(--gold);font-style:italic;font-weight:400}
+.login-box p{color:var(--text-light);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:32px}
+.login-box input{
+  width:100%;padding:14px 18px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-family:inherit;font-size:14px;color:var(--text);
+  outline:none;text-align:center;letter-spacing:4px;
+  transition: all .3s var(--ease);
+}
+.login-box input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+.login-box button{
+  margin-top:16px;width:100%;
+  padding:14px 20px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  color:#fff;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  font-size:12px;border-radius: var(--radius-full);
+  box-shadow: 0 8px 20px rgba(201,169,110,.3);
+  transition: all .3s var(--ease);
+}
+.login-box button:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(201,169,110,.45)}
+.login-err{
+  color:var(--pink-deep);font-size:12px;margin-top:12px;opacity:0;transition:opacity .3s;letter-spacing:.5px;
+}
+.login-err.show{opacity:1}
+
+/* ─── APP SHELL ─── */
+.admin-shell{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{
+  width:260px;flex-shrink:0;
+  background: linear-gradient(180deg, #1A1108 0%, #120B06 100%);
+  color:#C8B399;
+  padding:36px 24px;
+  display:flex;flex-direction:column;gap:6px;
+  position:sticky;top:0;height:100vh;
+}
+.sidebar .logo{
+  font-family:'Playfair Display',serif;
+  font-size:30px;font-weight:500;letter-spacing:3px;
+  color:var(--gold-pale);text-align:center;
+  margin-bottom:8px;
+}
+.sidebar .logo em{color:var(--gold);font-style:italic;font-weight:400}
+.sidebar .logo-sub{
+  font-family:'Jost',sans-serif;
+  text-align:center;
+  font-size:10px;letter-spacing:4px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:36px;
+}
+.sidebar a{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+  border-radius: var(--radius-sm);
+  color:#C8B399;font-size:13px;font-weight:500;letter-spacing:.3px;
+  transition: all .3s var(--ease);
+}
+.sidebar a:hover{background:rgba(201,169,110,.08);color:var(--gold-pale)}
+.sidebar a.active{background:rgba(201,169,110,.15);color:var(--gold)}
+.sidebar a svg{stroke:currentColor;width:17px;height:17px}
+.sidebar .sep{height:1px;background:#2A1F11;margin:20px 0}
+.sidebar .footer-note{margin-top:auto;text-align:center;font-size:10px;letter-spacing:2px;color:#6B5A4E;text-transform:uppercase}
+
+/* Main */
+.main{flex:1;padding:36px 44px;min-width:0}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:32px;gap:20px;flex-wrap:wrap;
+}
+.topbar h1{
+  font-family:'Playfair Display',serif;
+  font-size:36px;font-weight:500;letter-spacing:.5px;
+}
+.topbar .meta{color:var(--text-mid);font-size:13px}
+.topbar .meta b{color:var(--gold);font-weight:500}
+
+/* Cards row */
+.stats-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:18px;margin-bottom:32px;
+}
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  padding:22px 24px;border-radius:var(--radius);
+  box-shadow: var(--shadow);
+  transition: all .3s var(--ease);
+}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--gold)}
+.stat-card .label{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.stat-card .label svg{stroke:var(--gold);width:14px;height:14px}
+.stat-card .value{font-family:'Playfair Display',serif;font-size:38px;font-weight:500;color:var(--text)}
+.stat-card .trend{font-size:11px;color:var(--green);margin-top:6px;letter-spacing:.3px}
+
+/* Panels */
+.panels{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:32px}
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  padding:26px 28px;border-radius:var(--radius);
+  box-shadow: var(--shadow);
+}
+.panel h2{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:500;margin-bottom:6px;
+  display:flex;align-items:center;gap:10px;
+}
+.panel h2 svg{stroke:var(--gold);width:18px;height:18px}
+.panel .sub{color:var(--text-light);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
+
+/* Table */
+table{width:100%;border-collapse:collapse}
+thead th{
+  text-align:left;padding:10px 12px;
+  background:var(--gold-pale);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);font-weight:600;
+}
+thead th:first-child{border-radius: var(--radius-sm) 0 0 var(--radius-sm)}
+thead th:last-child{border-radius: 0 var(--radius-sm) var(--radius-sm) 0;text-align:right}
+tbody td{
+  padding:14px 12px;border-bottom:1px solid var(--border-soft);font-size:13px;
+}
+tbody td:last-child{text-align:right;font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);font-weight:500}
+tbody tr:last-child td{border-bottom:none}
+
+/* Category grid */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.cat-cell{
+  background:linear-gradient(135deg,var(--gold-pale),#FDF6F7);
+  padding:16px 18px;border-radius:var(--radius-sm);
+  border:1px solid var(--border-soft);
+}
+.cat-cell .name{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-mid);margin-bottom:6px}
+.cat-cell .count{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);font-weight:500}
+
+/* Orders */
+.orders-wrap{max-height:420px;overflow-y:auto}
+.order-row{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:14px 0;border-bottom:1px solid var(--border-soft);
+}
+.order-row:last-child{border-bottom:none}
+.order-row .left{flex:1;min-width:0}
+.order-row .cust{font-weight:600;font-size:13px;margin-bottom:3px}
+.order-row .det{font-size:11px;color:var(--text-light);letter-spacing:.3px}
+.order-row .amt{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);font-weight:500}
+.order-empty{color:var(--text-light);font-size:13px;text-align:center;padding:30px 0}
+
+/* Quick links */
+.quick-links{display:flex;flex-direction:column;gap:10px}
+.quick-link{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;
+  background:var(--bg);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);
+  transition: all .3s var(--ease);
+}
+.quick-link:hover{border-color:var(--gold);transform:translateX(4px)}
+.quick-link .ico{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--gold-pale);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.quick-link .ico svg{stroke:var(--gold)}
+.quick-link .text .title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.quick-link .text .desc{font-size:11px;color:var(--text-light)}
+
+/* Top products */
+.top-products{display:flex;flex-direction:column;gap:10px}
+.top-row{
+  display:flex;align-items:center;gap:14px;
+  padding:10px 0;border-bottom:1px solid var(--border-soft);
+}
+.top-row:last-child{border-bottom:none}
+.top-row .rank{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--gold-pale);color:var(--gold);
+  font-family:'Playfair Display',serif;font-size:15px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.top-row .info{flex:1;min-width:0}
+.top-row .info .brand{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.top-row .info .name{font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-row .price{font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);font-weight:500}
+
+/* Responsive */
+@media(max-width:900px){
+  .admin-shell{flex-direction:column}
+  .sidebar{
+    width:100%;height:auto;position:static;
+    flex-direction:row;flex-wrap:wrap;padding:20px;gap:8px;
+    align-items:center;
+  }
+  .sidebar .logo, .sidebar .logo-sub, .sidebar .footer-note, .sidebar .sep{display:none}
+  .sidebar a{padding:8px 12px;font-size:12px}
+  .main{padding:28px 22px}
+  .panels{grid-template-columns:1fr}
+  .topbar h1{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div class="login-gate" id="loginGate">
+  <div class="login-box">
+    <div class="brand">K<em>aw</em>thar</div>
+    <p>Admin Access</p>
+    <input type="password" id="pwInput" placeholder="••••••" autocomplete="off" />
+    <button onclick="checkPw()">Enter Dashboard</button>
+    <div class="login-err" id="loginErr">Incorrect password</div>
+  </div>
+</div>
+
+<div class="admin-shell" id="shell" style="display:none">
+  <aside class="sidebar">
+    <div class="logo">K<em>aw</em>thar</div>
+    <div class="logo-sub">Admin Panel</div>
+    <a class="active"><span id="iDash"></span>Dashboard</a>
+    <a href="shop.html"><span id="iShop"></span>Storefront</a>
+    <a href="index.html"><span id="iHome"></span>Landing Page</a>
+    <a href="about.html"><span id="iAbout"></span>About Page</a>
+    <div class="sep"></div>
+    <a href="https://wa.me/972599269950" target="_blank"><span id="iWa"></span>WhatsApp</a>
+    <a href="https://instagram.com/kawthar_skincare" target="_blank"><span id="iInsta"></span>Instagram</a>
+    <a href="https://formspree.io" target="_blank"><span id="iMail"></span>Formspree Inbox</a>
+    <div class="sep"></div>
+    <a href="#" onclick="logout();return false"><span id="iOut"></span>Sign Out</a>
+    <div class="footer-note">v 1.0 · 2026</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1>Welcome back</h1>
+        <div class="meta">Last checked: <b id="nowDate"></b></div>
+      </div>
+      <a href="shop.html" class="quick-link" style="max-width:220px">
+        <div class="ico" id="iStore"></div>
+        <div class="text">
+          <div class="title">View Storefront</div>
+          <div class="desc">Opens shop.html</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="stats-row" id="statsRow"></div>
+
+    <div class="panels">
+      <div class="panel">
+        <h2><span id="iCat"></span>Products by Category</h2>
+        <div class="sub">Full catalog breakdown</div>
+        <div class="cat-grid" id="catGrid"></div>
+      </div>
+      <div class="panel">
+        <h2><span id="iLink"></span>Quick Links</h2>
+        <div class="sub">Jump to common destinations</div>
+        <div class="quick-links">
+          <a class="quick-link" href="https://wa.me/972599269950" target="_blank">
+            <div class="ico" id="iWaLink"></div>
+            <div class="text">
+              <div class="title">WhatsApp Business</div>
+              <div class="desc">+972 59 926 9950</div>
+            </div>
+          </a>
+          <a class="quick-link" href="https://instagram.com/kawthar_skincare" target="_blank">
+            <div class="ico" id="iInstaLink"></div>
+            <div class="text">
+              <div class="title">Instagram</div>
+              <div class="desc">@kawthar_skincare</div>
+            </div>
+          </a>
+          <a class="quick-link" href="shop.html">
+            <div class="ico" id="iShopLink"></div>
+            <div class="text">
+              <div class="title">Public Storefront</div>
+              <div class="desc">Browse shop.html</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panels">
+      <div class="panel">
+        <h2><span id="iOrders"></span>Recent Orders</h2>
+        <div class="sub">Pulled from local submissions log</div>
+        <div class="orders-wrap" id="ordersWrap"></div>
+      </div>
+      <div class="panel">
+        <h2><span id="iStar"></span>Featured Products</h2>
+        <div class="sub">Curated on landing page</div>
+        <div class="top-products" id="topProducts"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="shared.js"></script>
+<script>
+// ─── Password gate (simple client-side; real auth would be server-side) ───
+const PASSWORD = 'kawthar2026';
+
+function checkPw(){
+  const val = document.getElementById('pwInput').value;
+  if(val === PASSWORD){
+    sessionStorage.setItem('kawthar_admin', '1');
+    showDash();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.classList.add('show');
+    setTimeout(()=>err.classList.remove('show'), 2200);
+  }
+}
+function logout(){
+  sessionStorage.removeItem('kawthar_admin');
+  location.reload();
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') checkPw(); });
+
+if(sessionStorage.getItem('kawthar_admin') === '1') showDash();
+
+function showDash(){
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('shell').style.display = 'flex';
+  renderDashboard();
+}
+
+function renderDashboard(){
+  // Icons
+  const ic = {
+    dash: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`,
+    shop: ICONS.bag,
+    home: `<svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></svg>`,
+    about: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 16 0v1"/></svg>`,
+    wa: ICONS.wa, insta: ICONS.insta, mail: ICONS.mail,
+    out: `<svg viewBox="0 0 24 24"><path d="M16 17l5-5-5-5M21 12H9M13 22H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8"/></svg>`,
+    cat: `<svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>`,
+    link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 1 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 1 0 7 7l1-1"/></svg>`,
+    orders: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,
+    star: `<svg viewBox="0 0 24 24"><path d="M12 2l3.1 6.3 6.9 1-5 4.8 1.2 6.9L12 17.8 5.8 21l1.2-6.9L2 9.3l6.9-1z"/></svg>`,
+    total: `<svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+    pack: `<svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5zM3 13l9 5 9-5"/></svg>`,
+    tag: `<svg viewBox="0 0 24 24"><path d="M20 12L12 20l-8-8V4h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>`,
+  };
+
+  // Sidebar icons
+  document.getElementById('iDash').innerHTML = ic.dash;
+  document.getElementById('iShop').innerHTML = ic.shop;
+  document.getElementById('iHome').innerHTML = ic.home;
+  document.getElementById('iAbout').innerHTML = ic.about;
+  document.getElementById('iWa').innerHTML = ic.wa;
+  document.getElementById('iInsta').innerHTML = ic.insta;
+  document.getElementById('iMail').innerHTML = ic.mail;
+  document.getElementById('iOut').innerHTML = ic.out;
+  document.getElementById('iStore').innerHTML = ic.shop;
+  document.getElementById('iCat').innerHTML = ic.cat;
+  document.getElementById('iLink').innerHTML = ic.link;
+  document.getElementById('iWaLink').innerHTML = ic.wa;
+  document.getElementById('iInstaLink').innerHTML = ic.insta;
+  document.getElementById('iShopLink').innerHTML = ic.shop;
+  document.getElementById('iOrders').innerHTML = ic.orders;
+  document.getElementById('iStar').innerHTML = ic.star;
+
+  // Date
+  document.getElementById('nowDate').textContent = new Date().toLocaleString('en-GB', {
+    day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+
+  // Stats
+  const orders = JSON.parse(localStorage.getItem('kawthar_orders') || '[]');
+  const brands = new Set(products.map(p=>p.brand));
+  const totalRev = orders.reduce((s,o)=>s+o.total, 0);
+  const featured = products.filter(p=>p.isFeatured).length;
+
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card">
+      <div class="label">${ic.pack} Total Products</div>
+      <div class="value">${products.length}</div>
+      <div class="trend">across all categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">${ic.tag} Active Brands</div>
+      <div class="value">${brands.size}</div>
+      <div class="trend">hand-picked partners</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">${ic.orders} Orders Logged</div>
+      <div class="value">${orders.length}</div>
+      <div class="trend">${orders.length ? 'from site submissions' : 'none yet'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">${ic.total} Revenue Logged</div>
+      <div class="value">₪${totalRev}</div>
+      <div class="trend">local submissions only</div>
+    </div>
+  `;
+
+  // Category breakdown
+  const catMap = {serum:'Serum',moisturizer:'Moisturizer',cleanser:'Cleanser',sunscreen:'Sunscreen',toner:'Toner',eye:'Eye Care',mask:'Masks',hair:'Hair Care'};
+  const counts = {};
+  products.forEach(p => counts[p.cat] = (counts[p.cat]||0)+1);
+  document.getElementById('catGrid').innerHTML = Object.entries(catMap).map(([k,label])=>`
+    <div class="cat-cell">
+      <div class="name">${label}</div>
+      <div class="count">${counts[k]||0}</div>
+    </div>
+  `).join('');
+
+  // Orders
+  const ordersWrap = document.getElementById('ordersWrap');
+  if(orders.length === 0){
+    ordersWrap.innerHTML = `<div class="order-empty">No orders logged yet. Submissions via the contact form will appear here.</div>`;
+  } else {
+    ordersWrap.innerHTML = orders.slice(0, 10).map(o => `
+      <div class="order-row">
+        <div class="left">
+          <div class="cust">${o.name || 'Guest'}</div>
+          <div class="det">${o.city || '—'} · ${o.phone || '—'} · ${new Date(o.date).toLocaleDateString('en-GB')}</div>
+        </div>
+        <div class="amt">₪${o.total}</div>
+      </div>
+    `).join('');
+  }
+
+  // Featured products
+  const feats = products.filter(p=>p.isFeatured).slice(0, 8);
+  document.getElementById('topProducts').innerHTML = feats.map((p,i)=>`
+    <div class="top-row">
+      <div class="rank">${i+1}</div>
+      <div class="info">
+        <div class="brand">${p.brand}</div>
+        <div class="name">${p.nameEn || p.name}</div>
+      </div>
+      <div class="price">₪${p.price}</div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>
