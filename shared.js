@@ -309,6 +309,10 @@ function applyLang(lang){
     btn.querySelectorAll('.lang-active').forEach(e=>e.classList.remove('lang-active'));
     btn.querySelector(`.lang-${lang}`)?.classList.add('lang-active');
   });
+  // Swap select option text (shop sort/price dropdowns)
+  document.querySelectorAll('select option[data-ar][data-en]').forEach(opt => {
+    opt.textContent = opt.getAttribute('data-' + lang) || opt.textContent;
+  });
   // Re-render products if shop
   if(typeof window.renderActiveProducts === 'function') window.renderActiveProducts();
   // Re-render cart
@@ -475,9 +479,10 @@ function showToast(msg){
 function productCardHTML(p, index){
   const lang = getLang();
   const name = lang === 'en' && p.nameEn ? p.nameEn : p.name;
+  const rating = getProductRating(p, index);
   return `
-    <article class="product-card" data-idx="${index}">
-      ${p.isNew ? `<span class="new-badge" data-ar="جديد" data-en="New">${lang==='en'?'New':'جديد'}</span>` : ''}
+    <article class="product-card" data-idx="${index}" onclick="openProductModal(${index})" style="cursor:pointer">
+      ${p.isNew ? `<span class="new-badge">${lang==='en'?'New':'جديد'}</span>` : ''}
       <div class="product-img-wrap">
         ${catIcon[p.cat] || ICONS.sparkle}
       </div>
@@ -485,6 +490,7 @@ function productCardHTML(p, index){
       <div class="product-info">
         <div class="product-brand-label">${p.brand}</div>
         <h3>${name}</h3>
+        <div class="product-card-rating">${starsHTML(rating)}<span class="rating-num">${rating.toFixed(1)}</span></div>
         <div class="product-footer">
           <span class="product-price">₪${p.price}</span>
           <button class="add-btn" data-add="${index}" aria-label="add to cart">
@@ -500,6 +506,7 @@ function bindAddToCart(sourceArrayName){
   document.addEventListener('click', function(e){
     const btn = e.target.closest('.add-btn');
     if(!btn || !btn.dataset.add) return;
+    e.stopPropagation();
     const arr = window[sourceArrayName || 'filteredProducts'] || products;
     const p = arr[parseInt(btn.dataset.add, 10)];
     if(p) addToCart({...p}, btn);
@@ -684,10 +691,170 @@ function mountBrandsBar(){
   bar.innerHTML = `<div class="brands-track">${one}${one}</div>`;
 }
 
+/* ─── PRODUCT RATINGS (deterministic, no randomness) ─── */
+function getProductRating(p, idx){
+  if(p.isFeatured || p.isNew){
+    return [4.7,4.8,4.9,5.0,4.8,4.9,4.7,5.0][idx % 8];
+  }
+  return [4.1,4.2,4.3,4.4,4.5,4.6,4.4,4.3,4.5,4.7][(idx*3 + Math.floor(p.price/10)) % 10];
+}
+function starsHTML(r){
+  const full = Math.round(r);
+  return `<span>${'★'.repeat(full)}${'☆'.repeat(5-full)}</span>`;
+}
+
+/* ─── CATEGORY DESCRIPTIONS (for modal) ─── */
+const catDesc = {
+  ar:{
+    serum:'سيروم مركّز يخترق الطبقات العميقة من البشرة، يعزز إشراقها ويوحّد لونها بفاعلية عالية.',
+    moisturizer:'مرطب يمنح البشرة ترطيباً طويل الأمد مع تعزيز حاجزها الطبيعي للحفاظ على نعومتها.',
+    cleanser:'منظّف لطيف يزيل الأوساخ والزيوت الزائدة دون الإخلال بحاجز رطوبة البشرة.',
+    sunscreen:'واقٍ شمسي يحمي من الأشعة UVA وUVB مع قوام خفيف لا يسدّ المسام.',
+    toner:'تونر يوازن مستوى حموضة البشرة ويُحضّرها لامتصاص المنتجات التالية بشكل أفضل.',
+    eye:'تركيبة فائقة الرقة تعتني بمنطقة العيون الحساسة، تُقلّل الانتفاخ وتُفتّح الهالات.',
+    mask:'ماسك مكثّف يمنح البشرة دفعة فورية من الترطيب والتجديد والحيوية.',
+    hair:'منتج عناية بالشعر يغذّي الخصلات من الجذر إلى الأطراف، يمنحها اللمعان والمرونة.',
+  },
+  en:{
+    serum:'A concentrated formula that penetrates deeper skin layers to boost radiance and even skin tone.',
+    moisturizer:'A rich moisturizer that delivers long-lasting hydration while reinforcing the skin\'s natural barrier.',
+    cleanser:'A gentle cleanser that removes impurities and excess oil without disrupting the moisture barrier.',
+    sunscreen:'Broad-spectrum protection against UVA & UVB rays with a lightweight finish that never clogs pores.',
+    toner:'Balances skin pH and primes it for better absorption of the products that follow.',
+    eye:'An ultra-delicate formula designed for the eye area — reduces puffiness and brightens dark circles.',
+    mask:'An intensive treatment that delivers an instant surge of hydration, renewal, and radiance.',
+    hair:'A nourishing hair care formula that feeds each strand from root to tip, adding shine and elasticity.',
+  }
+};
+const catIngredients = {
+  ar:{
+    serum:'هيالورونيك أسيد · نياسينأميد · ريتينول · فيتامين C · ببتيدات نشطة',
+    moisturizer:'سيراميدات · زبدة الشيا · سكوالين · ألوة فيرا · كولاجين مائي',
+    cleanser:'أحماض أمينية · غلسرين · مستخلص الخيار · شاي أخضر · زيت جوز الهند',
+    sunscreen:'فلتر UV واسع الطيف · أوكسيد الزنك النانوي · نياسينأميد · مستخلص الشاي الأبيض',
+    toner:'ماء الورد · حمض الساليسيليك · هيالورونيك أسيد · بيتا غلوكان · بانثينول',
+    eye:'ريتينول · ببتيدات العيون · كافيين · فيتامين E · هيالورونيك أسيد',
+    mask:'كاولين · كولاجين مائي · سنتيلا أسياتيكا · بروبوليس · نياسينأميد',
+    hair:'زيت الكاميليا · كيراتين · أرجينين · بانثينول · بروتين الحرير',
+  },
+  en:{
+    serum:'Hyaluronic Acid · Niacinamide · Retinol · Vitamin C · Active Peptides',
+    moisturizer:'Ceramides · Shea Butter · Squalane · Aloe Vera · Marine Collagen',
+    cleanser:'Amino Acids · Glycerin · Cucumber Extract · Green Tea · Coconut Oil',
+    sunscreen:'Broad-Spectrum UV Filter · Nano Zinc Oxide · Niacinamide · White Tea Extract',
+    toner:'Rose Water · Salicylic Acid · Hyaluronic Acid · Beta-Glucan · Panthenol',
+    eye:'Retinol · Eye Peptides · Caffeine · Vitamin E · Hyaluronic Acid',
+    mask:'Kaolin · Marine Collagen · Centella Asiatica · Propolis · Niacinamide',
+    hair:'Camellia Oil · Keratin · Arginine · Panthenol · Silk Protein',
+  }
+};
+
+/* ─── PRODUCT MODAL ─── */
+let _modalIdx = 0;
+
+function openProductModal(idx){
+  _modalIdx = idx;
+  _renderModal();
+  document.getElementById('productModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProductModal(){
+  document.getElementById('productModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleModalOverlayClick(e){
+  if(e.target.id === 'productModalOverlay') closeProductModal();
+}
+function navModal(dir){
+  const arr = window.filteredProducts || products;
+  _modalIdx = (_modalIdx + dir + arr.length) % arr.length;
+  const card = document.getElementById('modalCard');
+  card.style.transition = 'none';
+  card.style.opacity = '0';
+  card.style.transform = `translateX(${dir > 0 ? '24px' : '-24px'})`;
+  requestAnimationFrame(()=>{
+    _renderModal();
+    requestAnimationFrame(()=>{
+      card.style.transition = '';
+      card.style.opacity = '1';
+      card.style.transform = '';
+    });
+  });
+}
+function addToCartFromModal(idx){
+  const arr = window.filteredProducts || products;
+  const p = arr[idx];
+  if(p) addToCart({...p}, null);
+}
+function _renderModal(){
+  const arr = window.filteredProducts || products;
+  const p = arr[_modalIdx];
+  if(!p) return;
+  const lang = getLang();
+  const name = lang === 'en' && p.nameEn ? p.nameEn : p.name;
+  const rating = getProductRating(p, _modalIdx);
+  const desc = (catDesc[lang] || catDesc.en)[p.cat] || '';
+  const ings = (catIngredients[lang] || catIngredients.en)[p.cat] || '';
+  const catLabel = T[lang][p.cat] || p.cat;
+  const addLabel = T[lang].addToCart;
+  const ingLabel = lang === 'en' ? 'Key Ingredients' : 'المكونات الرئيسية';
+
+  document.getElementById('modalCard').innerHTML = `
+    <div class="modal-visual">
+      ${catIcon[p.cat] || ICONS.sparkle}
+      ${p.isNew ? `<span class="modal-new-badge">${lang==='en'?'New':'جديد'}</span>` : ''}
+    </div>
+    <div class="modal-info">
+      <div class="modal-brand">${p.brand}</div>
+      <h2 class="modal-name">${name}</h2>
+      <div class="modal-meta">
+        <div class="modal-stars">${starsHTML(rating)}<span class="modal-rating-num">${rating.toFixed(1)}</span></div>
+        <span class="modal-cat-tag">${catLabel}</span>
+      </div>
+      <div class="modal-price">₪${p.price}</div>
+      <div class="modal-divider"></div>
+      <p class="modal-desc">${desc}</p>
+      <div class="modal-ingredients">
+        <span class="modal-ing-label">${ingLabel}</span>
+        <span class="modal-ing-list">${ings}</span>
+      </div>
+      <div class="modal-counter">${_modalIdx + 1} / ${arr.length}</div>
+      <button class="btn btn-gold modal-add-btn" onclick="addToCartFromModal(${_modalIdx});closeProductModal()">
+        ${ICONS.plus}<span>${addLabel}</span>
+      </button>
+    </div>
+  `;
+}
+
+function mountProductModal(){
+  if(document.getElementById('productModalOverlay')) return;
+  const el = document.createElement('div');
+  el.innerHTML = `
+    <div class="product-overlay" id="productModalOverlay" onclick="handleModalOverlayClick(event)">
+      <button class="modal-close-btn" onclick="closeProductModal()" aria-label="close">${ICONS.close}</button>
+      <button class="modal-nav-btn modal-prev" onclick="navModal(-1)" aria-label="previous">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="modal-card" id="modalCard"></div>
+      <button class="modal-nav-btn modal-next" onclick="navModal(1)" aria-label="next">
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>`;
+  document.body.appendChild(el.firstElementChild);
+  document.addEventListener('keydown', e=>{
+    const o = document.getElementById('productModalOverlay');
+    if(!o || !o.classList.contains('open')) return;
+    if(e.key === 'Escape') closeProductModal();
+    if(e.key === 'ArrowLeft')  navModal(-1);
+    if(e.key === 'ArrowRight') navModal(1);
+  });
+}
+
 /* ─── INIT (every page) ─── */
 function initKawthar(options = {}){
   mountNav(options);
   mountCartModal();
+  mountProductModal();
   mountWhatsApp();
   mountFooter();
   mountBrandsBar();

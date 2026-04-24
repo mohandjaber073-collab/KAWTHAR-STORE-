@@ -46,7 +46,9 @@
 
 <main class="shop-main">
   <div class="sticky-filter">
-    <div class="filter-wrap">
+
+    <!-- Row 1: search + sort + price -->
+    <div class="filter-toprow">
       <div class="search-bar">
         <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7"/><path d="M20 20l-4.3-4.3"/></svg>
         <input type="text" id="searchInput"
@@ -54,18 +56,37 @@
                data-en-placeholder="Search a product or brand..."
                placeholder="ابحثي عن منتج أو ماركة...">
       </div>
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterProducts('all',this)" data-ar="الكل" data-en="All">الكل</button>
-        <button class="filter-btn" onclick="filterProducts('serum',this)" data-ar="سيروم" data-en="Serum">سيروم</button>
-        <button class="filter-btn" onclick="filterProducts('moisturizer',this)" data-ar="مرطب" data-en="Moisturizer">مرطب</button>
-        <button class="filter-btn" onclick="filterProducts('cleanser',this)" data-ar="غسول" data-en="Cleanser">غسول</button>
-        <button class="filter-btn" onclick="filterProducts('sunscreen',this)" data-ar="واقي شمس" data-en="Sunscreen">واقي شمس</button>
-        <button class="filter-btn" onclick="filterProducts('toner',this)" data-ar="تونر" data-en="Toner">تونر</button>
-        <button class="filter-btn" onclick="filterProducts('eye',this)" data-ar="عيون" data-en="Eyes">عيون</button>
-        <button class="filter-btn" onclick="filterProducts('mask',this)" data-ar="ماسك" data-en="Masks">ماسك</button>
-        <button class="filter-btn" onclick="filterProducts('hair',this)" data-ar="شعر" data-en="Hair">شعر</button>
-      </div>
+
+      <select id="sortSelect" class="filter-select">
+        <option value="default"      data-ar="ترتيب"            data-en="Sort">ترتيب</option>
+        <option value="price-asc"    data-ar="السعر: الأقل"     data-en="Price: Low–High">السعر: الأقل</option>
+        <option value="price-desc"   data-ar="السعر: الأعلى"    data-en="Price: High–Low">السعر: الأعلى</option>
+        <option value="top-rated"    data-ar="الأعلى تقييماً"   data-en="Top Rated">الأعلى تقييماً</option>
+        <option value="best-selling" data-ar="الأكثر مبيعاً"   data-en="Best Selling">الأكثر مبيعاً</option>
+      </select>
+
+      <select id="priceSelect" class="filter-select">
+        <option value="all"   data-ar="كل الأسعار"   data-en="All Prices">كل الأسعار</option>
+        <option value="0-60"  data-ar="أقل من ₪60"   data-en="Under ₪60">أقل من ₪60</option>
+        <option value="60-80" data-ar="₪60 — ₪80"    data-en="₪60 — ₪80">₪60 — ₪80</option>
+        <option value="80-100"data-ar="₪80 — ₪100"   data-en="₪80 — ₪100">₪80 — ₪100</option>
+        <option value="100+"  data-ar="أكثر من ₪100" data-en="Over ₪100">أكثر من ₪100</option>
+      </select>
     </div>
+
+    <!-- Row 2: category pills -->
+    <div class="cat-pills-row">
+      <button class="filter-btn active" onclick="filterProducts('all',this)"          data-ar="الكل"       data-en="All">الكل</button>
+      <button class="filter-btn"        onclick="filterProducts('serum',this)"        data-ar="سيروم"      data-en="Serum">سيروم</button>
+      <button class="filter-btn"        onclick="filterProducts('moisturizer',this)"  data-ar="مرطب"       data-en="Moisturizer">مرطب</button>
+      <button class="filter-btn"        onclick="filterProducts('cleanser',this)"     data-ar="غسول"       data-en="Cleanser">غسول</button>
+      <button class="filter-btn"        onclick="filterProducts('sunscreen',this)"    data-ar="واقي شمس"   data-en="Sunscreen">واقي شمس</button>
+      <button class="filter-btn"        onclick="filterProducts('toner',this)"        data-ar="تونر"       data-en="Toner">تونر</button>
+      <button class="filter-btn"        onclick="filterProducts('eye',this)"          data-ar="عيون"       data-en="Eyes">عيون</button>
+      <button class="filter-btn"        onclick="filterProducts('mask',this)"         data-ar="ماسك"       data-en="Masks">ماسك</button>
+      <button class="filter-btn"        onclick="filterProducts('hair',this)"         data-ar="شعر"        data-en="Hair">شعر</button>
+    </div>
+
   </div>
 
   <div class="product-count" id="productCount"></div>
