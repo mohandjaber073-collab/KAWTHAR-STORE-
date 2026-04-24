@@ -65,13 +65,14 @@
         <option value="best-selling" data-ar="الأكثر مبيعاً"   data-en="Best Selling">الأكثر مبيعاً</option>
       </select>
 
-      <select id="priceSelect" class="filter-select">
-        <option value="all"   data-ar="كل الأسعار"   data-en="All Prices">كل الأسعار</option>
-        <option value="0-60"  data-ar="أقل من ₪60"   data-en="Under ₪60">أقل من ₪60</option>
-        <option value="60-80" data-ar="₪60 — ₪80"    data-en="₪60 — ₪80">₪60 — ₪80</option>
-        <option value="80-100"data-ar="₪80 — ₪100"   data-en="₪80 — ₪100">₪80 — ₪100</option>
-        <option value="100+"  data-ar="أكثر من ₪100" data-en="Over ₪100">أكثر من ₪100</option>
-      </select>
+      <div class="price-range-box" id="priceRangeBox">
+        <span class="price-range-vals" id="priceRangeVals">₪0 — ₪300</span>
+        <div class="price-range-track">
+          <div class="price-range-fill" id="priceRangeFill"></div>
+          <input type="range" id="priceMinInput" class="price-range-input" min="0" max="300" value="0" step="5">
+          <input type="range" id="priceMaxInput" class="price-range-input" min="0" max="300" value="300" step="5">
+        </div>
+      </div>
     </div>
 
     <!-- Row 2: category pills -->
