@@ -1,144 +1,193 @@
 /* ============================================================
-   SHOP — search · category · price range · sort (all combined)
+   SHOP — loads products from Supabase, filters, displays
    ============================================================ */
 
-let currentCat      = 'all';
-let currentQuery    = '';
-let currentSort     = 'default';
-let currentPriceMin = 0;
-let currentPriceMax = Infinity;
+let allProducts = [];       // loaded from Supabase
+let currentCat   = 'all';
+let currentQuery = '';
+let currentSort  = 'default';
 
-window.filteredProducts = products;
+// ── LOAD products from Supabase on page load ──────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  initKawthar({ active: 'shop', source: 'filteredProducts' });
 
-/* ── helpers ── */
-function filterByPrice(arr, min, max){
-  return arr.filter(p => p.price >= min && p.price <= max);
+  showLoadingState();
+
+  try {
+    allProducts = await fetchProductsFromDB();
+  } catch (e) {
+    console.error('Could not load products:', e);
+    allProducts = products; // fallback to shared.js array
+  }
+
+  window.filteredProducts = allProducts;
+  initPriceRange();
+  applyFilters();
+
+  // Bind search and sort inputs
+  document.getElementById('searchInput')
+    ?.addEventListener('input', e => {
+      currentQuery = e.target.value;
+      applyFilters();
+    });
+
+  document.getElementById('sortSelect')
+    ?.addEventListener('change', e => {
+      currentSort = e.target.value;
+      applyFilters();
+    });
+});
+
+// ── SHOW loading spinner while fetching ───────────────────
+function showLoadingState() {
+  const grid = document.getElementById('productGrid');
+  if (grid) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:80px 20px">
+        <div style="width:36px;height:36px;border:3px solid #E8D5B0;
+          border-top-color:#C9A96E;border-radius:50%;
+          animation:spin .7s linear infinite;margin:0 auto 16px">
+        </div>
+        <p style="color:#A89080;font-size:14px">Loading products...</p>
+      </div>
+    `;
+  }
 }
 
-function sortArr(arr, sort){
-  const copy = [...arr];
-  if(sort === 'price-asc')    return copy.sort((a,b) => a.price - b.price);
-  if(sort === 'price-desc')   return copy.sort((a,b) => b.price - a.price);
-  if(sort === 'top-rated')    return copy.sort((a,b) => getProductRating(b,0) - getProductRating(a,0));
-  if(sort === 'best-selling') return copy.sort((a,b) => (b.isFeatured?1:0) - (a.isFeatured?1:0));
-  return copy;
-}
-
-/* ── main filter + render ── */
-function applyFilters(){
+// ── APPLY filters and re-render ───────────────────────────
+function applyFilters() {
   const q = currentQuery.trim().toLowerCase();
-  let result = products.filter(p => {
-    if(currentCat !== 'all' && p.cat !== currentCat) return false;
-    if(!q) return true;
+
+  let result = allProducts.filter(p => {
+    if (currentCat !== 'all' && p.category !== currentCat && p.cat !== currentCat) return false;
+    if (!q) return true;
     return (
-      p.brand.toLowerCase().includes(q) ||
-      p.name.toLowerCase().includes(q)  ||
-      (p.nameEn || '').toLowerCase().includes(q)
+      (p.brand||'').toLowerCase().includes(q) ||
+      (p.name||'').toLowerCase().includes(q) ||
+      (p.name_en||p.nameEn||'').toLowerCase().includes(q)
     );
   });
-  result = filterByPrice(result, currentPriceMin, currentPriceMax);
-  result = sortArr(result, currentSort);
+
+  // Sort
+  if (currentSort === 'price-asc')  result.sort((a,b) => a.price - b.price);
+  if (currentSort === 'price-desc') result.sort((a,b) => b.price - a.price);
+
   window.filteredProducts = result;
   renderShopGrid();
+  updateProductCount(result.length);
 }
 
-function renderShopGrid(){
-  const lang = getLang();
-  const countEl = document.getElementById('productCount');
-  if(countEl){
-    const n = window.filteredProducts.length;
-    countEl.innerHTML = lang === 'ar'
-      ? `عرض <b>${n}</b> منتج`
-      : `Showing <b>${n}</b> products`;
-  }
+// ── RENDER product cards ───────────────────────────────────
+function renderShopGrid() {
   const grid = document.getElementById('productGrid');
-  grid.innerHTML = window.filteredProducts.length
-    ? window.filteredProducts.map((p,i) => productCardHTML(p, i)).join('')
-    : `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:15px">
-         ${lang === 'en' ? 'No matching products' : 'لا توجد منتجات مطابقة'}
-       </div>`;
+  if (!grid) return;
+
+  if (window.filteredProducts.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#A89080">
+        No products found
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = window.filteredProducts.map((p, i) =>
+    productCardHTML(p, i)
+  ).join('');
 }
 
-/* ── price range slider ── */
-function initPriceRange(){
-  const prices  = products.map(p => p.price);
+// ── SINGLE product card HTML ───────────────────────────────
+function productCardHTML(p, index) {
+  const lang   = getLang();
+  const name   = (lang === 'en' && (p.name_en || p.nameEn))
+                   ? (p.name_en || p.nameEn)
+                   : p.name;
+  const cat    = p.category || p.cat || 'serum';
+  const imgSrc = p.image_url;          // from Supabase column
+
+  return `
+    <article class="product-card" data-idx="${index}">
+      ${p.is_new || p.isNew
+        ? `<span class="new-badge">${lang==='en'?'New':'جديد'}</span>`
+        : ''}
+
+      <div class="product-img-wrap" onclick="openProductModal(${index})">
+        ${imgSrc
+          ? `<img
+               src="${imgSrc}"
+               alt="${name}"
+               loading="lazy"
+               onerror="this.style.display='none';
+                        this.nextElementSibling.style.display='flex'"
+             />
+             <div style="display:none;align-items:center;
+                         justify-content:center;width:100%;height:100%">
+               ${catIcon[cat] || ICONS.sparkle}
+             </div>`
+          : catIcon[cat] || ICONS.sparkle
+        }
+      </div>
+
+      <span class="brand-badge">${p.brand}</span>
+
+      <div class="product-info">
+        <div class="product-brand-label">${p.brand}</div>
+        <h3 onclick="openProductModal(${index})">${name}</h3>
+        <div class="product-footer">
+          <span class="product-price">₪${p.price}</span>
+          <button class="add-btn" data-add="${index}">
+            ${ICONS.plus}<span class="btn-label">${t('addToCart')}</span>
+          </button>
+        </div>
+      </div>
+    </article>`;
+}
+
+// ── UPDATE count label ─────────────────────────────────────
+function updateProductCount(n) {
+  const el = document.getElementById('productCount');
+  if (el) el.innerHTML = `Showing <b>${n}</b> products`;
+}
+
+// ── FILTER by category ─────────────────────────────────────
+function filterProducts(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-btn')
+    .forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+// ── PRICE RANGE ────────────────────────────────────────────
+function initPriceRange() {
+  if (!allProducts.length) return;
+  const prices  = allProducts.map(p => p.price);
   const absMin  = Math.min(...prices);
   const absMax  = Math.max(...prices);
-
   const minInput = document.getElementById('priceMinInput');
   const maxInput = document.getElementById('priceMaxInput');
-  const label    = document.getElementById('priceRangeVals');
-  const fill     = document.getElementById('priceRangeFill');
-
-  if(!minInput || !maxInput) return;
-
+  if (!minInput || !maxInput) return;
   minInput.min = maxInput.min = absMin;
   minInput.max = maxInput.max = absMax;
   minInput.value = absMin;
   maxInput.value = absMax;
-  currentPriceMin = absMin;
-  currentPriceMax = absMax;
 
-  function updateUI(){
-    const minV  = parseInt(minInput.value);
-    const maxV  = parseInt(maxInput.value);
-    const range = absMax - absMin || 1;
-    if(fill){
-      fill.style.left  = ((minV - absMin) / range * 100) + '%';
-      fill.style.right = ((absMax - maxV) / range * 100) + '%';
-    }
-    if(label) label.textContent = `₪${minV} — ₪${maxV}`;
+  function update() {
+    const minV = parseInt(minInput.value);
+    const maxV = parseInt(maxInput.value);
+    const label = document.getElementById('priceRangeVals');
+    if (label) label.textContent = `₪${minV} — ₪${maxV}`;
+    window.filteredProducts = allProducts.filter(
+      p => p.price >= minV && p.price <= maxV
+    );
+    applyFilters();
   }
-
-  minInput.addEventListener('input', function(){
-    if(parseInt(minInput.value) >= parseInt(maxInput.value) - 5)
-      minInput.value = parseInt(maxInput.value) - 5;
-    currentPriceMin = parseInt(minInput.value);
-    updateUI();
-    applyFilters();
-  });
-
-  maxInput.addEventListener('input', function(){
-    if(parseInt(maxInput.value) <= parseInt(minInput.value) + 5)
-      maxInput.value = parseInt(minInput.value) + 5;
-    currentPriceMax = parseInt(maxInput.value);
-    updateUI();
-    applyFilters();
-  });
-
-  updateUI();
+  minInput.addEventListener('input', update);
+  maxInput.addEventListener('input', update);
 }
 
-/* ── exposed callbacks ── */
-function filterProducts(cat, btn){
-  currentCat = cat;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  applyFilters();
-}
-function searchProducts(q){ currentQuery = q || ''; applyFilters(); }
-function sortProducts(val){ currentSort = val || 'default'; applyFilters(); }
+// ── SPIN animation (needed for loading state) ──────────────
+const spinStyle = document.createElement('style');
+spinStyle.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(spinStyle);
 
 window.renderActiveProducts = renderShopGrid;
-
-/* ── option label swap for sort select on lang change ── */
-function syncSelectLabels(){
-  const lang = getLang();
-  document.querySelectorAll('select option[data-ar][data-en]').forEach(opt => {
-    opt.textContent = opt.getAttribute('data-' + lang) || opt.textContent;
-  });
-}
-window.renderActiveProducts = () => { renderShopGrid(); syncSelectLabels(); };
-
-document.addEventListener('DOMContentLoaded', () => {
-  initKawthar({ active: 'shop', source: 'filteredProducts' });
-
-  document.getElementById('searchInput')
-    ?.addEventListener('input', e => searchProducts(e.target.value));
-  document.getElementById('sortSelect')
-    ?.addEventListener('change', e => sortProducts(e.target.value));
-
-  initPriceRange();
-  applyFilters();
-  syncSelectLabels();
-});
