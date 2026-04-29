@@ -1,4 +1,78 @@
 /* ============================================================
+   SUPABASE CONFIG
+   ============================================================ */
+const SUPABASE_URL = 'https://bsfaukwntrbslofkvdcv.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzZmF1a3dudHJic2xvZmt2ZGN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTIxOTksImV4cCI6MjA5Mjc4ODE5OX0.5T0tiAWA_rUmkoQrxuoKvEwHVd67Tjt-pGo9r9LXJkY';
+
+const SB_HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`
+};
+
+// Fetch all products from Supabase
+async function fetchProductsFromDB() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/products?order=created_at.desc`,
+    { headers: SB_HEADERS }
+  );
+  return await res.json();
+}
+
+// Upload image to Supabase Storage → returns public URL
+async function uploadImageToDB(file) {
+  const filename = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+  const res = await fetch(
+    `${SUPABASE_URL}/storage/v1/object/products/${filename}`,
+    {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': file.type,
+        'x-upsert': 'true'
+      },
+      body: file
+    }
+  );
+  if (!res.ok) throw new Error('Image upload failed');
+  return `${SUPABASE_URL}/storage/v1/object/public/products/${filename}`;
+}
+
+// Save new product to database
+async function saveProductToDB(product) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/products`,
+    {
+      method: 'POST',
+      headers: { ...SB_HEADERS, 'Prefer': 'return=representation' },
+      body: JSON.stringify(product)
+    }
+  );
+  return await res.json();
+}
+
+// Update existing product in database
+async function updateProductInDB(id, data) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/products?id=eq.${id}`,
+    {
+      method: 'PATCH',
+      headers: { ...SB_HEADERS, 'Prefer': 'return=representation' },
+      body: JSON.stringify(data)
+    }
+  );
+  return await res.json();
+}
+
+// Delete product from database
+async function deleteProductFromDB(id) {
+  await fetch(
+    `${SUPABASE_URL}/rest/v1/products?id=eq.${id}`,
+    { method: 'DELETE', headers: SB_HEADERS }
+  );
+}
+/* ============================================================
    KAWTHAR — Shared JS
    Products · Cart · Language · Theme · Nav · SVG icons
    ============================================================ */
